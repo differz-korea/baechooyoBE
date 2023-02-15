@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "businesses",
+  "info": {
+    "singularName": "business",
+    "pluralName": "businesses",
+    "displayName": "Business",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "number": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "string"
+    },
+    "isApproved": {
+      "type": "boolean",
+      "default": false,
+      "required": false
+    },
+    "business_role": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::business-role.business-role",
+      "inversedBy": "businesses"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "businesses"
+    },
+    "delivery_agency": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::delivery-agency.delivery-agency",
+      "mappedBy": "business"
+    },
+    "myReviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "writer"
+    }
+  }
+}

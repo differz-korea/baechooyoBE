@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "locations",
+  "info": {
+    "singularName": "location",
+    "pluralName": "locations",
+    "displayName": "location"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "dosi": {
+      "type": "string"
+    },
+    "gungu": {
+      "type": "string"
+    },
+    "eupmeondong": {
+      "type": "string"
+    },
+    "delivery_agencies": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::delivery-agency.delivery-agency",
+      "mappedBy": "activityLocations"
+    }
+  }
+}

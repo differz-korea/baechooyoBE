@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "business_roles",
+  "info": {
+    "singularName": "business-role",
+    "pluralName": "business-roles",
+    "displayName": "BusinessRole"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "businesses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::business.business",
+      "mappedBy": "business_role"
+    }
+  }
+}

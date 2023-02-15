@@ -1,0 +1,108 @@
+{
+  "kind": "collectionType",
+  "collectionName": "delivery_agencies",
+  "info": {
+    "singularName": "delivery-agency",
+    "pluralName": "delivery-agencies",
+    "displayName": "Delivery Agency",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "totalRider": {
+      "type": "integer"
+    },
+    "mainRider": {
+      "type": "integer"
+    },
+    "subRider": {
+      "type": "integer",
+      "required": false
+    },
+    "freeRider": {
+      "type": "integer"
+    },
+    "motorcycleRider": {
+      "type": "integer"
+    },
+    "carRider": {
+      "type": "integer"
+    },
+    "basicFee": {
+      "type": "integer"
+    },
+    "basicMeterDistance": {
+      "type": "integer"
+    },
+    "AdditionalChargePer100M": {
+      "type": "integer"
+    },
+    "surchargeForEachDong": {
+      "type": "boolean",
+      "default": false
+    },
+    "otherSurchangeDescription": {
+      "type": "text"
+    },
+    "minimumAcceptableMinutes": {
+      "type": "integer",
+      "default": 5
+    },
+    "maximumDelayMinutes": {
+      "type": "integer",
+      "default": 5
+    },
+    "issuanceTaxInvoice": {
+      "type": "boolean",
+      "default": true
+    },
+    "linkableStatus": {
+      "type": "string"
+    },
+    "linkableDescription": {
+      "type": "text"
+    },
+    "TaxInvoiceDescription": {
+      "type": "text"
+    },
+    "description": {
+      "type": "text"
+    },
+    "business": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::business.business",
+      "inversedBy": "delivery_agency"
+    },
+    "delivery_brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::delivery-brand.delivery-brand",
+      "inversedBy": "delivery_agencies"
+    },
+    "tier": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tier.tier",
+      "inversedBy": "delivery_agencies"
+    },
+    "tierExpirationDate": {
+      "type": "date"
+    },
+    "activityLocations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::location.location",
+      "inversedBy": "delivery_agencies"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "delivery_agency"
+    }
+  }
+}
