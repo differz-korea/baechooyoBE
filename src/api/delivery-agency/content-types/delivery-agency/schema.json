@@ -37,7 +37,7 @@
     "basicMeterDistance": {
       "type": "integer"
     },
-    "AdditionalChargePer100M": {
+    "surchargePer100M": {
       "type": "integer"
     },
     "surchargeForEachDong": {
@@ -103,6 +103,12 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "delivery_agency"
+    },
+    "managementFeePerMonth": {
+      "type": "integer"
+    },
+    "managementFeePerCase": {
+      "type": "integer"
     }
   }
 }
