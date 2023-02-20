@@ -28,29 +28,23 @@
       "default": false,
       "required": false
     },
-    "business_role": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::business-role.business-role",
-      "inversedBy": "businesses"
-    },
-    "user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "businesses"
-    },
     "delivery_agency": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::delivery-agency.delivery-agency",
       "mappedBy": "business"
     },
-    "myReviews": {
+    "user": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::review.review",
-      "mappedBy": "writer"
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "business"
+    },
+    "business_role": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::business-role.business-role",
+      "inversedBy": "businesses"
     }
   }
 }

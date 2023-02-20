@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "writer": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::business.business",
-      "inversedBy": "myReviews"
-    },
     "delivery_agency": {
       "type": "relation",
       "relation": "manyToOne",
@@ -29,6 +23,12 @@
     },
     "score": {
       "type": "integer"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "reviews"
     }
   }
 }

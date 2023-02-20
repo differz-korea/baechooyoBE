@@ -69,10 +69,16 @@
       "unique": true,
       "private": true
     },
-    "businesses": {
+    "business": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::business.business",
+      "inversedBy": "user"
+    },
+    "reviews": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::business.business",
+      "target": "api::review.review",
       "mappedBy": "user"
     }
   }
