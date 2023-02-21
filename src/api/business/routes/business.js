@@ -4,6 +4,8 @@
  * business router
  */
 
+// const getBusiness = require("../middlewares/getBusiness");
+
 module.exports = {
   routes: [
     {
@@ -11,7 +13,6 @@ module.exports = {
       path: "/business",
       handler: "business.register",
       config: {
-        policies: [],
         middlewares: [],
       },
     },
@@ -20,7 +21,6 @@ module.exports = {
       path: "/business",
       handler: "business.edit",
       config: {
-        policies: [],
         middlewares: [],
       },
     },
@@ -29,7 +29,6 @@ module.exports = {
       path: "/business",
       handler: "business.delete",
       config: {
-        policies: [],
         middlewares: [],
       },
     },

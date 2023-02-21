@@ -44,6 +44,7 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
+      "required": true,
       "mappedBy": "business"
     },
     "business_role": {

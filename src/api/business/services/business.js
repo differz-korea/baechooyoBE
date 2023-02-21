@@ -9,7 +9,7 @@ const business = require("../controllers/business");
 const { createCoreService } = require("@strapi/strapi").factories;
 
 module.exports = createCoreService("api::business.business", ({ strapi }) => ({
-  async test({ businessInfo, user }) {
+  async register({ businessInfo, user }) {
     /** 요청계정에서 이미 가지고 있는 비즈니스가 있는지 체크 한다. */
     /** 똑같은 사업자등록번호를 가진 비즈니스가 DB에 존재하는지 체크한다. */
     const business = await strapi.db.query("api::business.business").findOne({

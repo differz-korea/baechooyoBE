@@ -11,8 +11,17 @@ module.exports = {
       path: "/delivery-agency",
       handler: "delivery-agency.register",
       config: {
-        policies: [],
-        middlewares: [],
+        middlewares: [
+          {
+            name: "api::business.get-business",
+          },
+          {
+            name: "api::business-role.check-business-role",
+            config: {
+              roleName: "delivery agency",
+            },
+          },
+        ],
       },
     },
     {
