@@ -4,16 +4,16 @@
  * business router
  */
 
-const { createCoreRouter } = require("@strapi/strapi").factories;
-
-module.exports = createCoreRouter("api::business.business", {
-  only: ["create", "findOne", "find"],
-  config: {
-    create: {
-      //   auth: true,
-      policies: [],
-      middlewares: [],
+module.exports = {
+  routes: [
+    {
+      method: "POST",
+      path: "/business",
+      handler: "business.register",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
     },
-    findOne: {},
-  },
-});
+  ],
+};

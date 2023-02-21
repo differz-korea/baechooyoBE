@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -26,7 +26,8 @@
     "isApproved": {
       "type": "boolean",
       "default": false,
-      "required": false
+      "required": false,
+      "private": true
     },
     "delivery_agency": {
       "type": "relation",

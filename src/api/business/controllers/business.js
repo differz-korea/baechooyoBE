@@ -9,13 +9,10 @@ const { createCoreController } = require("@strapi/strapi").factories;
 module.exports = createCoreController(
   "api::business.business",
   ({ strapi }) => ({
-    async create(ctx) {
-      // const { number, name, location, isApproved } = ctx.body;
-      // const entity = await strapi.service('api::restaurant.restaurant').create(id, query);
-      // const sanitizedEntity = await this.sanitizeOutput(entity, ctx);
-
-      // return this.transformResponse(sanitizedEntity);
-      console.log(ctx.body);
+    async register(ctx) {
+      return await strapi
+        .service("api::business.business")
+        .test({ businessInfo: ctx.request.body, user: ctx.state.user });
     },
   })
 );
