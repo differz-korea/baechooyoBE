@@ -14,14 +14,19 @@
   "attributes": {
     "number": {
       "type": "string",
-      "required": true
+      "required": true,
+      "minLength": 8,
+      "unique": true
     },
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "minLength": 2
     },
     "location": {
-      "type": "string"
+      "type": "string",
+      "minLength": 9,
+      "unique": true
     },
     "isApproved": {
       "type": "boolean",
@@ -43,9 +48,9 @@
     },
     "business_role": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::business-role.business-role",
-      "inversedBy": "businesses"
+      "relation": "oneToOne",
+      "required": true,
+      "target": "api::business-role.business-role"
     }
   }
 }

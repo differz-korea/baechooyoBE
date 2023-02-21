@@ -4,7 +4,8 @@
   "info": {
     "singularName": "business-role",
     "pluralName": "business-roles",
-    "displayName": "BusinessRole"
+    "displayName": "BusinessRole",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,13 +13,9 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
-    },
-    "businesses": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::business.business",
-      "mappedBy": "business_role"
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }

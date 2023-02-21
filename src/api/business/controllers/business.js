@@ -14,5 +14,7 @@ module.exports = createCoreController(
         .service("api::business.business")
         .test({ businessInfo: ctx.request.body, user: ctx.state.user });
     },
+    async edit(ctx) {},
+    async delete(ctx) {},
   })
 );

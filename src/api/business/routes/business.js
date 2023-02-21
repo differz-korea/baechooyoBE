@@ -15,5 +15,23 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: "PUT",
+      path: "/business",
+      handler: "business.edit",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+    {
+      method: "DELETE",
+      path: "/business",
+      handler: "business.delete",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };
