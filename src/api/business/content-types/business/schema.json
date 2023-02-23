@@ -26,7 +26,8 @@
     "location": {
       "type": "string",
       "minLength": 9,
-      "unique": true
+      "unique": true,
+      "required": true
     },
     "isApproved": {
       "type": "boolean",
@@ -34,24 +35,19 @@
       "required": false,
       "private": true
     },
-    "delivery_agency": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::delivery-agency.delivery-agency",
-      "mappedBy": "business"
-    },
     "user": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
-      "required": true,
-      "mappedBy": "business"
+      "inversedBy": "business"
     },
-    "business_role": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "required": true,
-      "target": "api::business-role.business-role"
+    "representativeName": {
+      "type": "string",
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
     }
   }
 }

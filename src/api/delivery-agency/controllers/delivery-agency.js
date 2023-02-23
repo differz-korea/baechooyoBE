@@ -9,16 +9,26 @@ const { createCoreController } = require("@strapi/strapi").factories;
 module.exports = createCoreController(
   "api::delivery-agency.delivery-agency",
   ({ strapi }) => ({
-    async register(ctx) {
-      //ctx에서 미들웨어를 통해 유저의 비즈니스를 불러와야한다.
-      return await strapi
-        .service("api::delivery-agency.delivery-agency")
-        .register({
-          deliveryAgencyInfo: ctx.request.body,
-          business: ctx.state.business,
-        });
+    service: strapi.service("api::delivery-agency.delivery-agency"),
+    async registerOrEdit(ctx) {
+      return await this.service.registerOrEdit({
+        deliveryAgencyInfo: ctx.request.body,
+        user: ctx.state.user,
+        business: ctx.state.business,
+      });
     },
-    async edit(ctx) {},
-    async delete(ctx) {},
+    async delete(ctx) {
+      const deliveryAgencyId = ctx.state.deliveryAgency.id;
+      return this.service.delete(deliveryAgencyId);
+    },
+    async getById(ctx) {
+      const deliveryAgencyId = ctx.params.id;
+      return await this.service.getDeliveryAgencyById(deliveryAgencyId);
+    },
+    async getMy(ctx) {
+      return ctx.state.deliveryAgency;
+    },
+    async getByLocation(ctx) {},
+    async getSomeDeliveryAgencyForMainPage(ctx) {},
   })
 );

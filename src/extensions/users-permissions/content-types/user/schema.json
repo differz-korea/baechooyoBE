@@ -69,17 +69,32 @@
       "unique": true,
       "private": true
     },
-    "business": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::business.business",
-      "inversedBy": "user"
-    },
     "reviews": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "user"
+    },
+    "register_route": {
+      "type": "string"
+    },
+    "sns_agreement": {
+      "type": "boolean",
+      "default": false
+    },
+    "ad_agreement": {
+      "type": "boolean",
+      "default": false
+    },
+    "businessType": {
+      "type": "string"
+    },
+    "business": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::business.business",
+      "configurable": true,
+      "inversedBy": "user"
     }
   }
 }

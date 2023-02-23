@@ -13,32 +13,41 @@
   "pluginOptions": {},
   "attributes": {
     "totalRider": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0,
+      "required": true
     },
     "mainRider": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "subRider": {
       "type": "integer",
-      "required": false
+      "default": 0
     },
     "freeRider": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "motorcycleRider": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "carRider": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "basicFee": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "basicMeterDistance": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "surchargePer100M": {
-      "type": "integer"
+      "type": "integer",
+      "default": 50
     },
     "surchargeForEachDong": {
       "type": "boolean",
@@ -46,6 +55,12 @@
     },
     "otherSurchangeDescription": {
       "type": "text"
+    },
+    "managementFeePerMonth": {
+      "type": "integer"
+    },
+    "managementFeePerCase": {
+      "type": "integer"
     },
     "minimumAcceptableMinutes": {
       "type": "integer",
@@ -71,17 +86,12 @@
     "description": {
       "type": "text"
     },
-    "business": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::business.business",
-      "inversedBy": "delivery_agency"
-    },
     "delivery_brand": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::delivery-brand.delivery-brand",
-      "inversedBy": "delivery_agencies"
+      "inversedBy": "delivery_agencies",
+      "required": true
     },
     "tier": {
       "type": "relation",
@@ -96,7 +106,8 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::location.location",
-      "inversedBy": "delivery_agencies"
+      "inversedBy": "delivery_agencies",
+      "required": true
     },
     "reviews": {
       "type": "relation",
@@ -104,11 +115,15 @@
       "target": "api::review.review",
       "mappedBy": "delivery_agency"
     },
-    "managementFeePerMonth": {
-      "type": "integer"
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     },
-    "managementFeePerCase": {
-      "type": "integer"
+    "business": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::business.business"
     }
   }
 }

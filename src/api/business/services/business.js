@@ -1,7 +1,5 @@
 "use strict";
 
-const business = require("../controllers/business");
-
 /**
  * business service
  */
@@ -18,16 +16,18 @@ module.exports = createCoreService("api::business.business", ({ strapi }) => ({
       },
     });
     if (business) {
-      return {
-        message:
-          "이미 고객님 또는 다른 계정에 비즈니스가 등록되어있기 때문에 이 등록을 진행 할 수 없습니다.",
-      };
+      return await strapi.requestContext
+        .get()
+        .badRequest(
+          "이미 고객님 또는 다른 계정에 비즈니스가 등록되어있기 때문에 이 등록을 진행 할 수 없습니다."
+        );
     }
+    console.log(business);
     /** 등록 조건에 모두 해당한다면 그 후에 비즈니스를 생성한다. */
-    const { number, name, location, business_role } = businessInfo;
+    const { number, name, location } = businessInfo;
     const registeredBusiness = await strapi.entityService.create(
       "api::business.business",
-      { data: { number, name, location, business_role, user: user.id } }
+      { data: { number, name, location, user: user.id } }
     );
     return registeredBusiness;
   },
