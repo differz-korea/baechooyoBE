@@ -7,48 +7,42 @@ module.exports = {
   routes: [
     {
       method: "POST",
-      /** 자신계정의 비즈니스 정보에 있는 자신의 배달대행 정보를 등록 및 수정 하는 라우트 */
+      /** 자신의 배달대행 정보를 등록 및 수정 하는 라우트 */
       path: "/delivery-agency",
       handler: "delivery-agency.registerOrEdit",
       config: {
         policies: [
+          /** 계정이 배달업체로 등록된 사용자만 등록 할 수 있다  */
           {
             name: "global::business-type-check",
-            config: {
-              businessType: "delivery",
-            },
+            config: "DELIVERY",
           },
         ],
-        middlewares: ["api::business.get-business"],
-      },
-    },
-    {
-      /** 자신계정의 비즈니스 정보에 있는 자신의 배달대행 정보를 삭제하는 라우트 */
-      method: "DELETE",
-      path: "/delivery-agency",
-      handler: "delivery-agency.delete",
-      config: {
-        middlewares: [
-          "api::business.get-business",
-          "api::delivery-agency.get-delivery-agency",
-        ],
       },
     },
     {
       method: "GET",
+      /** 자신의 배달대행업체 정보를 불러오는 라우트 */
       path: "/delivery-agency",
-      handler: "delivery-agency.getMy",
-      config: {
-        middlewares: [
-          "api::business.get-business",
-          "api::delivery-agency.get-delivery-agency",
-        ],
-      },
+      handler: "delivery-agency.getByUser",
     },
     {
       method: "GET",
+      /** 자신 외에 타 배달대행업체 정보를 불러오는 라우트 */
       path: "/delivery-agency/:id",
       handler: "delivery-agency.getById",
+    },
+    {
+      method: "GET",
+      /** 메인페이지에 보여줄 배달대행업체들 정보를 불러오는 라우트 */
+      path: "/delivery-agencies",
+      handler: "delivery-agency.getForMain",
+    },
+    {
+      method: "GET",
+      /** 지역정보를 기반해 배달대행업체들 정보를 불러오는 라우트 */
+      path: "/location-delivery-agencies/:locationId",
+      handler: "delivery-agency.getByLocation",
     },
   ],
 };

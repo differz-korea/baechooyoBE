@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * location controller
+ * rate-plan controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::location.location');
+module.exports = createCoreController('api::rate-plan.rate-plan');

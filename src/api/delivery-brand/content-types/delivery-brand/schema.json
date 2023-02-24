@@ -26,11 +26,11 @@
         "audios"
       ]
     },
-    "delivery_agencies": {
+    "deliveryAgencies": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::delivery-agency.delivery-agency",
-      "mappedBy": "delivery_brand"
+      "mappedBy": "deliveryBrand"
     }
   }
 }

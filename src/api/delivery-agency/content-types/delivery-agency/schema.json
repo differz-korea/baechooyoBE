@@ -14,28 +14,27 @@
   "attributes": {
     "totalRider": {
       "type": "integer",
-      "default": 0,
       "required": true
     },
     "mainRider": {
       "type": "integer",
-      "default": 0
+      "required": true
     },
     "subRider": {
       "type": "integer",
-      "default": 0
+      "required": true
     },
     "freeRider": {
       "type": "integer",
-      "default": 0
+      "required": true
     },
     "motorcycleRider": {
       "type": "integer",
-      "default": 0
+      "required": true
     },
     "carRider": {
       "type": "integer",
-      "default": 0
+      "required": true
     },
     "basicFee": {
       "type": "integer",
@@ -47,35 +46,38 @@
     },
     "surchargePer100M": {
       "type": "integer",
-      "default": 50
+      "required": true
     },
     "surchargeForEachDong": {
       "type": "boolean",
-      "default": false
+      "required": true
     },
     "otherSurchangeDescription": {
       "type": "text"
     },
     "managementFeePerMonth": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "managementFeePerCase": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "minimumAcceptableMinutes": {
       "type": "integer",
-      "default": 5
+      "required": true
     },
     "maximumDelayMinutes": {
       "type": "integer",
-      "default": 5
+      "required": true
     },
     "issuanceTaxInvoice": {
       "type": "boolean",
-      "default": true
+      "required": true
     },
     "linkableStatus": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "linkableDescription": {
       "type": "text"
@@ -84,46 +86,40 @@
       "type": "text"
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
-    "delivery_brand": {
+    "deliveryBrand": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::delivery-brand.delivery-brand",
-      "inversedBy": "delivery_agencies",
-      "required": true
-    },
-    "tier": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::tier.tier",
-      "inversedBy": "delivery_agencies"
-    },
-    "tierExpirationDate": {
-      "type": "date"
-    },
-    "activityLocations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::location.location",
-      "inversedBy": "delivery_agencies",
+      "inversedBy": "deliveryAgencies",
       "required": true
     },
     "reviews": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::review.review",
-      "mappedBy": "delivery_agency"
+      "mappedBy": "deliveryAgency"
     },
     "user": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "target": "plugin::users-permissions.user",
+      "required": true
     },
-    "business": {
+    "deliveryLocations": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::business.business"
+      "relation": "manyToMany",
+      "target": "api::delivery-location.delivery-location",
+      "inversedBy": "deliveryAgencies",
+      "required": true
+    },
+    "ratePlan": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::rate-plan.rate-plan",
+      "inversedBy": "deliveryAgencies"
     }
   }
 }

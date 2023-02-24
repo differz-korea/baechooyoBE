@@ -69,32 +69,39 @@
       "unique": true,
       "private": true
     },
+    "registerRoute": {
+      "type": "string"
+    },
+    "snsAgreement": {
+      "type": "boolean",
+      "required": true
+    },
+    "adAgreement": {
+      "type": "boolean",
+      "required": true
+    },
+    "businessId": {
+      "type": "string",
+      "required": true
+    },
+    "businessLocation": {
+      "type": "string",
+      "required": true
+    },
+    "businessName": {
+      "type": "string",
+      "required": true
+    },
+    "businessType": {
+      "type": "enumeration",
+      "enum": ["DELIVERY", "MERCHANT"],
+      "required": true
+    },
     "reviews": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::review.review",
-      "mappedBy": "user"
-    },
-    "register_route": {
-      "type": "string"
-    },
-    "sns_agreement": {
-      "type": "boolean",
-      "default": false
-    },
-    "ad_agreement": {
-      "type": "boolean",
-      "default": false
-    },
-    "businessType": {
-      "type": "string"
-    },
-    "business": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::business.business",
-      "configurable": true,
-      "inversedBy": "user"
+      "mappedBy": "writer"
     }
   }
 }

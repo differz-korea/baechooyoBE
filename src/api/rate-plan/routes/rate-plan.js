@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * tier router
+ * rate-plan router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::tier.tier');
+module.exports = createCoreRouter('api::rate-plan.rate-plan');

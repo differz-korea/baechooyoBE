@@ -14,21 +14,24 @@ module.exports = createCoreController(
       return await this.service.registerOrEdit({
         deliveryAgencyInfo: ctx.request.body,
         user: ctx.state.user,
-        business: ctx.state.business,
       });
-    },
-    async delete(ctx) {
-      const deliveryAgencyId = ctx.state.deliveryAgency.id;
-      return this.service.delete(deliveryAgencyId);
     },
     async getById(ctx) {
       const deliveryAgencyId = ctx.params.id;
-      return await this.service.getDeliveryAgencyById(deliveryAgencyId);
+      return await this.service.getDeliveryAgency({
+        where: {
+          id: deliveryAgencyId,
+        },
+      });
     },
-    async getMy(ctx) {
-      return ctx.state.deliveryAgency;
+    async getByUser(ctx) {
+      return await this.service.getDeliveryAgency({
+        where: {
+          user: ctx.state.user.id,
+        },
+      });
     },
+    async getForMain(ctx) {},
     async getByLocation(ctx) {},
-    async getSomeDeliveryAgencyForMainPage(ctx) {},
   })
 );

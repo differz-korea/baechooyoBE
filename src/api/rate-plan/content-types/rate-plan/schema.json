@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "tiers",
+  "collectionName": "rate_plans",
   "info": {
-    "singularName": "tier",
-    "pluralName": "tiers",
-    "displayName": "Tier",
-    "description": ""
+    "singularName": "rate-plan",
+    "pluralName": "rate-plans",
+    "displayName": "RatePlan"
   },
   "options": {
     "draftAndPublish": true
@@ -15,17 +14,17 @@
     "name": {
       "type": "string"
     },
-    "content": {
+    "description": {
       "type": "string"
     },
-    "duration": {
+    "durationDays": {
       "type": "integer"
     },
-    "delivery_agencies": {
+    "deliveryAgencies": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::delivery-agency.delivery-agency",
-      "mappedBy": "tier"
+      "mappedBy": "ratePlan"
     }
   }
 }
