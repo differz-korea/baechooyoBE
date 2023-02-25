@@ -18,6 +18,13 @@ module.exports = createCoreService(
       return await deliveryAgencyRepository.findOne(condition);
     },
 
+    async getDeliveryAgencies(condition) {
+      const deliveryAgencyRepository = strapi.db.query(
+        "api::delivery-agency.delivery-agency"
+      );
+      return await deliveryAgencyRepository.findMany(condition);
+    },
+
     /** 배달대행 업체 정보를 추가한다. */
     async registerOrEdit({ deliveryAgencyInfo, user }) {
       const deliveryAgencyRepository = strapi.db.query(

@@ -44,5 +44,11 @@ module.exports = {
       path: "/location-delivery-agencies/:locationId",
       handler: "delivery-agency.getByLocation",
     },
+    {
+      method: "POST",
+      /** 지역정보를 기반해 배달대행업체들 정보를 불러오는 라우트 */
+      path: "/locations-delivery-agencies",
+      handler: "delivery-agency.getByLocations",
+    },
   ],
 };
