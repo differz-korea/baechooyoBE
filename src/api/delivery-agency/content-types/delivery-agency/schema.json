@@ -108,18 +108,18 @@
       "target": "plugin::users-permissions.user",
       "required": true
     },
-    "deliveryLocations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::delivery-location.delivery-location",
-      "inversedBy": "deliveryAgencies",
-      "required": true
-    },
     "ratePlan": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::rate-plan.rate-plan",
       "inversedBy": "deliveryAgencies"
+    },
+    "delivery_locations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::delivery-location.delivery-location",
+      "inversedBy": "delivery_agencies",
+      "required": true
     }
   }
 }

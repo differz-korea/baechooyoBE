@@ -4,27 +4,28 @@
   "info": {
     "singularName": "delivery-location",
     "pluralName": "delivery-locations",
-    "displayName": "Delivery Location"
+    "displayName": "Delivery Location",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "DO_GWANGYEOKSI": {
+    "SIDO": {
       "type": "string"
     },
-    "SI_GUN_GU": {
+    "SIGUNGU": {
       "type": "string"
     },
-    "EUP_MEON_DONG": {
+    "EUPMEONDONG": {
       "type": "string"
     },
-    "deliveryAgencies": {
+    "delivery_agencies": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::delivery-agency.delivery-agency",
-      "mappedBy": "deliveryLocations"
+      "mappedBy": "delivery_locations"
     }
   }
 }
