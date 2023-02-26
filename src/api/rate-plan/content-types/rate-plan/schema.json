@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rate_plans",
+  "info": {
+    "singularName": "rate-plan",
+    "pluralName": "rate-plans",
+    "displayName": "RatePlan"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "durationDays": {
+      "type": "integer"
+    },
+    "deliveryAgencies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::delivery-agency.delivery-agency",
+      "mappedBy": "ratePlan"
+    }
+  }
+}

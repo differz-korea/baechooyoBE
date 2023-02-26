@@ -12,22 +12,22 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "delivery_agency": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::delivery-agency.delivery-agency",
-      "inversedBy": "reviews"
-    },
     "content": {
       "type": "text"
     },
     "score": {
       "type": "integer"
     },
-    "user": {
+    "writer": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
+      "inversedBy": "reviews"
+    },
+    "deliveryAgency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::delivery-agency.delivery-agency",
       "inversedBy": "reviews"
     }
   }

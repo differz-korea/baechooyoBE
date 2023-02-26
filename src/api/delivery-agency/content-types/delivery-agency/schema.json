@@ -13,54 +13,71 @@
   "pluginOptions": {},
   "attributes": {
     "totalRider": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "mainRider": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "subRider": {
       "type": "integer",
-      "required": false
+      "required": true
     },
     "freeRider": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "motorcycleRider": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "carRider": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "basicFee": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "basicMeterDistance": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "surchargePer100M": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "surchargeForEachDong": {
       "type": "boolean",
-      "default": false
+      "required": true
     },
     "otherSurchangeDescription": {
       "type": "text"
     },
+    "managementFeePerMonth": {
+      "type": "integer",
+      "required": true
+    },
+    "managementFeePerCase": {
+      "type": "integer",
+      "required": true
+    },
     "minimumAcceptableMinutes": {
       "type": "integer",
-      "default": 5
+      "required": true
     },
     "maximumDelayMinutes": {
       "type": "integer",
-      "default": 5
+      "required": true
     },
     "issuanceTaxInvoice": {
       "type": "boolean",
-      "default": true
+      "required": true
     },
     "linkableStatus": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "linkableDescription": {
       "type": "text"
@@ -69,46 +86,45 @@
       "type": "text"
     },
     "description": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
-    "business": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::business.business",
-      "inversedBy": "delivery_agency"
-    },
-    "delivery_brand": {
+    "deliveryBrand": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::delivery-brand.delivery-brand",
-      "inversedBy": "delivery_agencies"
-    },
-    "tier": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::tier.tier",
-      "inversedBy": "delivery_agencies"
-    },
-    "tierExpirationDate": {
-      "type": "date"
-    },
-    "activityLocations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::location.location",
-      "inversedBy": "delivery_agencies"
+      "inversedBy": "deliveryAgencies",
+      "required": true
     },
     "reviews": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::review.review",
+      "mappedBy": "deliveryAgency"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "required": true
+    },
+    "ratePlan": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::rate-plan.rate-plan",
+      "inversedBy": "deliveryAgencies"
+    },
+    "deliveryLocations": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::delivery-location.delivery-location",
+      "inversedBy": "deliveryAgencies"
+    },
+    "contracts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contract.contract",
       "mappedBy": "delivery_agency"
-    },
-    "managementFeePerMonth": {
-      "type": "integer"
-    },
-    "managementFeePerCase": {
-      "type": "integer"
     }
   }
 }
