@@ -94,7 +94,10 @@
     },
     "businessType": {
       "type": "enumeration",
-      "enum": ["DELIVERY", "MERCHANT"],
+      "enum": [
+        "DELIVERY",
+        "MERCHANT"
+      ],
       "required": true
     },
     "reviews": {

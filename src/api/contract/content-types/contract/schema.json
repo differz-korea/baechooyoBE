@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contracts",
+  "info": {
+    "singularName": "contract",
+    "pluralName": "contracts",
+    "displayName": "Contract",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "details": {
+      "type": "json"
+    },
+    "description": {
+      "type": "string"
+    },
+    "delivery_agency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::delivery-agency.delivery-agency",
+      "inversedBy": "contracts"
+    },
+    "approvedAt": {
+      "type": "datetime"
+    },
+    "expirationDate": {
+      "type": "date"
+    },
+    "requester": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "responder": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
