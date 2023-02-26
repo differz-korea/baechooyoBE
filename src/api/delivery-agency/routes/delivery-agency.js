@@ -3,6 +3,10 @@
  * delivery-agency router
  */
 
+const {
+  BusinessType,
+} = require("../../../extensions/users-permissions/type/business-type");
+
 module.exports = {
   routes: [
     {
@@ -15,7 +19,7 @@ module.exports = {
           /** 계정이 배달업체로 등록된 사용자만 등록 할 수 있다  */
           {
             name: "global::business-type-check",
-            config: "DELIVERY",
+            config: BusinessType.DELIVERY,
           },
         ],
       },
@@ -37,12 +41,6 @@ module.exports = {
       /** 메인페이지에 보여줄 배달대행업체들 정보를 불러오는 라우트 */
       path: "/delivery-agencies",
       handler: "delivery-agency.getForMain",
-    },
-    {
-      method: "GET",
-      /** 지역정보를 기반해 배달대행업체들 정보를 불러오는 라우트 */
-      path: "/location-delivery-agencies/:locationId",
-      handler: "delivery-agency.getByLocation",
     },
     {
       method: "POST",

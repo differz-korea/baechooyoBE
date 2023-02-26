@@ -114,12 +114,11 @@
       "target": "api::rate-plan.rate-plan",
       "inversedBy": "deliveryAgencies"
     },
-    "delivery_locations": {
+    "deliveryLocations": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::delivery-location.delivery-location",
-      "inversedBy": "delivery_agencies",
-      "required": true
+      "inversedBy": "deliveryAgencies"
     }
   }
 }

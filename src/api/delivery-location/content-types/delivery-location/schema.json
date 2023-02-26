@@ -21,11 +21,11 @@
     "EUPMEONDONG": {
       "type": "string"
     },
-    "delivery_agencies": {
+    "deliveryAgencies": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::delivery-agency.delivery-agency",
-      "mappedBy": "delivery_locations"
+      "mappedBy": "deliveryLocations"
     }
   }
 }

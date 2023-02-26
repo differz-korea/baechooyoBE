@@ -38,21 +38,12 @@ module.exports = createCoreController(
       // 그 아래 타이틀의 경우 [리뷰,평점 순]
       // 전국 기준입니다.
     },
-    async getByLocation(ctx) {
-      // 하나의 읍면동 코드를 통한 기준으로 찾아주는 메서드 이다.
-      const locationId = ctx.params.locationId;
-      return await this.service.getDeliveryAgencies({
-        where: {
-          delivery_locations: locationId,
-        },
-      });
-    },
     async getByLocations(ctx) {
       // 여러개 읍면동 코드를 통한 기준으로 찾아주는 메서드 이다.
-      const locationIds = ctx.request.body.locationIds;
+      const delivery_locations = ctx.request.body.delivery_locations;
       return await this.service.getDeliveryAgencies({
         where: {
-          delivery_locations: locationIds,
+          delivery_locations,
         },
       });
     },
