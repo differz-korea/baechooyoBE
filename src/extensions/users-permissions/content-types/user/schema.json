@@ -105,6 +105,12 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "writer"
+    },
+    "posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::post.post",
+      "mappedBy": "writer"
     }
   }
 }

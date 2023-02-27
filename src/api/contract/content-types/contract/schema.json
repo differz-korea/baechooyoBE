@@ -13,24 +13,19 @@
   "pluginOptions": {},
   "attributes": {
     "details": {
-      "type": "json"
+      "type": "json",
+      "required": true
     },
     "description": {
       "type": "string"
     },
     "delivery_agency": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToOne",
       "target": "api::delivery-agency.delivery-agency",
-      "inversedBy": "contracts"
+      "required": true
     },
-    "approvedAt": {
-      "type": "datetime"
-    },
-    "expirationDate": {
-      "type": "date"
-    },
-    "requester": {
+    "requestor": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
@@ -39,6 +34,33 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "requestorAgreement": {
+      "type": "boolean",
+      "default": true
+    },
+    "responderAgreement": {
+      "type": "boolean"
+    },
+    "editedAt": {
+      "type": "datetime"
+    },
+    "approvedAt": {
+      "type": "datetime"
+    },
+    "deniedAt": {
+      "type": "datetime"
+    },
+    "expirationDate": {
+      "type": "date"
+    },
+    "validityStatus": {
+      "type": "enumeration",
+      "enum": [
+        "approved",
+        "pending",
+        "denied"
+      ]
     }
   }
 }

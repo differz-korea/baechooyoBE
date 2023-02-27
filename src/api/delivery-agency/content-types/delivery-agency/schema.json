@@ -120,11 +120,8 @@
       "target": "api::delivery-location.delivery-location",
       "inversedBy": "deliveryAgencies"
     },
-    "contracts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::contract.contract",
-      "mappedBy": "delivery_agency"
+    "underContract": {
+      "type": "integer"
     }
   }
 }
