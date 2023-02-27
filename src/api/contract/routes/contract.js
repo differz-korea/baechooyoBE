@@ -13,11 +13,20 @@ const { createCoreRouter } = require("@strapi/strapi").factories;
 module.exports = {
   routes: [
     {
+      method: "GET",
+      /** 자신과 관련된 계약의 디테일 정보를 불러오기 */
+      path: "/contract/:id",
+      handler: "contract.getById",
+    },
+    {
+      method: "GET",
+      /** 자신과 관련된 계약 정보들을 불러오기 */
+      path: "/contract",
+      handler: "contract.getMyList",
+    },
+    {
       method: "POST",
       /** 소상공인과 배달대행업체의 계약을 생성하는 라우트 */
-      // 먼저 해당하는 배달업체와의 존재하는 계약을 불러온다
-      // 두 번째로 계약이 없으면 패스, 있다면 status가 rejected, canceled라면 패스
-      // 계약서를 작성한다.
       path: "/contract",
       handler: "contract.create",
       policies: [
@@ -31,7 +40,7 @@ module.exports = {
       method: "PUT",
       /** 소상공인과 배달대행업체의 계약을 수정하는 라우트 */
       // 먼저 계약서의 requester가 현재 유저와 일치해야한다.
-      // 두번째로 계약서의 status가 null이여야한다. (계약서의 status가 approved, rejected, canceld) 인경우 수정 할 수 없다.
+      // 두번째로 계약서의 status가 null이여야한다.
       // 계약서를 수정한다.
       path: "/contract/:id",
       handler: "contract.edit",
@@ -45,7 +54,7 @@ module.exports = {
     {
       method: "POST",
       /** 소상공인과 배달대행업체의 계약여부를 결정하는 라우트 */
-      //   body로 계약 승인 여부를 true 또는 false로 받는다
+      // body로 계약 승인 여부를 true 또는 false로 받는다
       // 먼저 계약서의 status가 null이라면 패스
       // 두 번째로 계약서의 responder가 현재 유저와 일치해야한다
       // 마지막으로 계약서의 status를 Approved 또는 Rejected로 결정한다

@@ -19,13 +19,12 @@
     "description": {
       "type": "string"
     },
-    "delivery_agency": {
+    "deliveryAgency": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::delivery-agency.delivery-agency",
-      "required": true
+      "target": "api::delivery-agency.delivery-agency"
     },
-    "requestor": {
+    "requester": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
@@ -40,17 +39,17 @@
     },
     "status": {
       "type": "enumeration",
-      "enum": [
-        "approved",
-        "rejected",
-        "canceled"
-      ]
+      "enum": ["approved", "rejected", "canceled"]
     },
     "requesterCancel": {
       "type": "boolean"
     },
     "responderCancel": {
       "type": "boolean"
+    },
+    "expirationDate": {
+      "type": "date",
+      "required": true
     }
   }
 }
