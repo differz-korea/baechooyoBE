@@ -35,32 +35,22 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
-    "requestorAgreement": {
-      "type": "boolean",
-      "default": true
-    },
-    "responderAgreement": {
-      "type": "boolean"
-    },
-    "editedAt": {
+    "statusAt": {
       "type": "datetime"
     },
-    "approvedAt": {
-      "type": "datetime"
-    },
-    "deniedAt": {
-      "type": "datetime"
-    },
-    "expirationDate": {
-      "type": "date"
-    },
-    "validityStatus": {
+    "status": {
       "type": "enumeration",
       "enum": [
         "approved",
-        "pending",
-        "denied"
+        "rejected",
+        "canceled"
       ]
+    },
+    "requesterCancel": {
+      "type": "boolean"
+    },
+    "responderCancel": {
+      "type": "boolean"
     }
   }
 }
