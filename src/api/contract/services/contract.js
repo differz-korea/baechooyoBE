@@ -6,7 +6,6 @@
 
 const { createCoreService } = require("@strapi/strapi").factories;
 const { ApplicationError, PolicyError } = require("@strapi/utils").errors;
-const strapi = require("@strapi/strapi");
 const {
   BusinessType,
 } = require("../../../extensions/users-permissions/type/business-type");
@@ -67,7 +66,7 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
     }
     return true;
   },
-  //계약 API에 대한 접근 권한이 있는지 체크한다.
+  //해당 계약서에 응답할 수 있는 상태인지 체크한다.
   async canResponse(contractInfo) {
     // 두 번째로 계약서의 status가 null이여야한다.
     if (contractInfo.status !== null) {
@@ -79,9 +78,32 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
       );
     }
   },
+  async canCreateReview(userId, deliveryAgencyId) {
+    const isApprovedContract = await this.getContract({
+      where: {
+        requester: userId,
+        deliveryAgency: deliveryAgencyId,
+        status: "approved",
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    if (!isApprovedContract) {
+      throw new ApplicationError("이 업체에게 승인응답을 받은 계약이 없습니다");
+    }
+    let comparedDate = new Date();
+    comparedDate.setDate(comparedDate.getDate() + 7);
+    //오늘로 부터 7일 지난 날과 비교
+    let approvedDate = new Date(isApprovedContract.statusAt);
+    if (comparedDate > approvedDate) {
+      throw new ApplicationError("업체 계약 승인일로부터 7일이 지나야합니다!");
+    }
+    return true;
+  },
+  //계약 API에 대한 접근 권한이 있는지 체크한다.
   async canActivateContract(contract, user) {
     if (user.businessType === BusinessType.DELIVERY) {
-      console.log(contract.responder.id, user.id);
       if (contract.responder.id === user.id) {
         return;
       }

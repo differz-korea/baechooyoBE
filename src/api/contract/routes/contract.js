@@ -34,7 +34,7 @@ module.exports = {
       // 먼저 계약서의 status가 approved이면 패스
       // 두 번째로 현재 유저가 계약서의 responder 또는 requester과 일치해야한다
       // 마지막으로 두명 모두 취소를 하면, 계약서의 status를 canceled로 업데이트한다
-      path: "/cancel/contract/:id",
+      path: "/cancel/contract",
       handler: "contract.cancel",
     },
     {

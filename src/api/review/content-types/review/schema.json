@@ -13,22 +13,26 @@
   "pluginOptions": {},
   "attributes": {
     "content": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "score": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "writer": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "reviews"
+      "inversedBy": "reviews",
+      "required": true
     },
     "deliveryAgency": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::delivery-agency.delivery-agency",
-      "inversedBy": "reviews"
+      "inversedBy": "reviews",
+      "required": true
     }
   }
 }

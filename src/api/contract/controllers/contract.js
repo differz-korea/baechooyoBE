@@ -78,8 +78,7 @@ module.exports = createCoreController(
       });
     },
     async response(ctx) {
-      // body로 계약 승인 여부를 true 또는 false로 받는다
-      console.log("이게 실행되는거 맞나?");
+      // 계약 승인 여부를 true 또는 false로 받는다
       const { approve, contractId } = ctx.request.body;
       const contractInfo = await strapi.entityService.findOne(
         "api::contract.contract",
@@ -102,7 +101,7 @@ module.exports = createCoreController(
       return {};
     },
     async cancel(ctx) {
-      const contractId = ctx.params.id;
+      const { contractId } = ctx.request.body;
       const contractInfo = await strapi.entityService.findOne(
         "api::contract.contract",
         contractId
