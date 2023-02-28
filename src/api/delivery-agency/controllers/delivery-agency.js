@@ -39,6 +39,7 @@ module.exports = createCoreController(
     async getByLocations(ctx) {
       // 여러개 읍면동 코드를 통한 기준으로 찾아주는 메서드 이다.
       const delivery_locations = ctx.request.body.delivery_locations;
+      // [배열형태로 보내도 되고], 일반 number로 보내도 된다
       return await this.service.getDeliveryAgencies({
         where: {
           delivery_locations,

@@ -15,41 +15,14 @@ module.exports = createCoreController(
   ({ strapi }) => ({
     /** 계약서를 작성하는 핸들러 */
     async create(ctx) {
-      // 먼저 해당 하는 배달업체와의 계약 중 status가 approved또는 null로 되어있는것이 하나도 있으면 안된다.
-      // 계약서를 작성한다.
-      // details, description, deliveryAgency, expirationDate
+      // details, description, deliveryAgency(ID number), expirationDate
       const { details, description, deliveryAgency, expirationDate } =
         ctx.request.body;
-      const requesterId = ctx.state.user.id;
-      const existContract = await strapi
+      const requester = ctx.state.user.id;
+      // 사용자가 해당업체와 계약을 할 수 있는지 체크한다.
+      await strapi
         .service("api::contract.contract")
-        .getContract({
-          filter: {
-            requester: requesterId,
-            deliveryAgency,
-            $or: [
-              {
-                // 계약이 성립되었거나
-                status: "approved",
-              },
-              {
-                // 계약이 응답 대기중이라면
-                status: null,
-              },
-            ],
-            //만료일자가 최신인것으로
-            orderBy: [{ expirationDate: "desc" }],
-          },
-        });
-      // 만약 계약이 존재한다면, 계약이 진행중인지 확인한다. - 만료시 새로 생성 허용
-      if (new Date(existContract.expirationDate) > new Date()) {
-        return {
-          message:
-            "이미 해당 업체와의 진행중 계약이 있기 때문에 계약서를 생성 할 수 없습니다",
-        };
-        // 이미 계약이 성립된 경우 사용자는 계약을 취소하고 나서, 계약서 status가 canceled 된 후에 새로 요청 할 수 있다.
-        // 계약이 대기중인 경우 사용자는 계약을 수정하는 방법을 사용 할 수 있다.
-      }
+        .canCreateContract(requester, deliveryAgency);
       const deliveryAgencyInfo = await strapi.entityService.findOne(
         "api::delivery-agency.delivery-agency",
         deliveryAgency,
@@ -63,7 +36,7 @@ module.exports = createCoreController(
           details,
           description,
           deliveryAgency,
-          requester: requesterId,
+          requester,
           responder: deliveryAgencyInfo.user.id,
           expirationDate,
         },
@@ -71,7 +44,6 @@ module.exports = createCoreController(
     },
     async getById(ctx) {
       const contractId = ctx.request.params.id;
-      const userId = ctx.state.user.id;
       const contractInfo = await strapi.entityService.findOne(
         "api::contract.contract",
         contractId,
@@ -106,10 +78,10 @@ module.exports = createCoreController(
       });
     },
     async response(ctx) {
-      const contractId = ctx.params.id;
       // body로 계약 승인 여부를 true 또는 false로 받는다
-      const { approve } = ctx.request.body;
-      const contractInfo = strapi.entityService.findOne(
+      console.log("이게 실행되는거 맞나?");
+      const { approve, contractId } = ctx.request.body;
+      const contractInfo = await strapi.entityService.findOne(
         "api::contract.contract",
         contractId,
         { populate: ["requester", "responder"] }
@@ -118,17 +90,16 @@ module.exports = createCoreController(
       await strapi
         .service("api::contract.contract")
         .canActivateContract(contractInfo, ctx.state.user);
-      // 두 번째로 계약서의 status가 null이라면 패스
-      if (contractInfo.status !== null) {
-        return {
-          message: "계약상태가 계약 중 상태가 아닙니다.",
-        };
-      }
+
+      await strapi.service("api::contract.contract").canResponse(contractInfo);
       // 마지막으로 계약서의 status를 Approved 또는 Rejected로 결정한다
       await strapi.entityService.update("api::contract.contract", contractId, {
-        status: approve ? "approved" : "rejected",
+        data: {
+          status: approve ? "approved" : "rejected",
+          statusAt: new Date(),
+        },
       });
-      return;
+      return {};
     },
     async cancel(ctx) {
       const contractId = ctx.params.id;
@@ -139,18 +110,22 @@ module.exports = createCoreController(
       await strapi
         .service("api::contract.contract")
         .canActivateContract(contractInfo, ctx.state.user);
+
+      //can Cancel ?
       if (contractInfo.status !== "approved") {
-        return "취소하려면 approved 상태이여야 합니다!";
+        return ctx.badRequest("취소하려면 approved 상태이여야 합니다!");
       }
+
       if (contractInfo.requesterCancel && contractInfo.responderCancel) {
         await strapi.entityService.update(
           "api::contract.contract",
           contractId,
           {
             status: "canceled",
+            statusAt: new Date().toLocaleDateString(),
           }
         );
-        return;
+        return {};
         // 이것은 소상공인과 배달대행 모두가 취소의사가 있어야 state를 cancel로 바꿀 수 있다.
       }
       const cancelObj = {
@@ -184,23 +159,25 @@ module.exports = createCoreController(
         .service("api::contract.contract")
         .canActivateContract(contract, ctx.state.user);
 
+      //can Edit?
       if (contract.status !== null) {
-        return "이미 처리된 계약이기 때문에, 계약을 수정할 수 없습니다";
+        return ctx.badRequest(
+          "이미 배달대행사업자로부터 응답된 계약입니다, 계약을 수정하고싶으시면 현재 계약을 취소하고 새로운 계약서를 만드세요"
+        );
       }
+
       const { details, description, deliveryAgency, expirationDate } =
         ctx.request.body;
-      return await strapi.entityService.update(
-        "api::contract.contract",
-        contractId,
-        {
-          data: {
-            details,
-            description,
-            deliveryAgency,
-            expirationDate,
-          },
-        }
-      );
+
+      await strapi.entityService.update("api::contract.contract", contractId, {
+        data: {
+          details,
+          description,
+          deliveryAgency,
+          expirationDate,
+        },
+      });
+      return {};
     },
   })
 );
