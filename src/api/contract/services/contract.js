@@ -7,6 +7,10 @@
 const { createCoreService } = require("@strapi/strapi").factories;
 
 const strapi = require("@strapi/strapi");
+const {
+  BusinessType,
+} = require("../../../extensions/users-permissions/type/business-type");
+const contract = require("../routes/contract");
 
 module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
   async getContract(condition) {
@@ -24,5 +28,19 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
         data,
       }
     );
+  },
+  async canActivateContract(contract, user) {
+    if (user.businessType === BusinessType.DELIVERY) {
+      if (contract.responder.id === user.id) {
+        return;
+      }
+    }
+    if (user.businessType === BusinessType.MERCHANT) {
+      if (contract.requester.id === user.id) {
+        return;
+      }
+    }
+    const ctx = strapi.requestContext.get();
+    return ctx.response.badRequest("고객님께서 접근 할 수 없는 계약입니다");
   },
 }));
