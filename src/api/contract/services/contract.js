@@ -13,12 +13,10 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
     const contractRepository = strapi.db.query("api::contract.contract");
     return await contractRepository.findOne(condition);
   },
-
   async getContracts(condition) {
     const contractRepository = strapi.db.query("api::contract.contract");
     return await contractRepository.findMany(condition);
   },
-  async editContract(condition, data) {},
   async createContract(data) {
     return await strapi.entityService.create(
       "api::delivery-agency.delivery-agency",

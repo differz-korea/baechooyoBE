@@ -1,5 +1,9 @@
 "use strict";
 
+const {
+  BusinessType,
+} = require("../../../extensions/users-permissions/type/business-type");
+
 /**
  * contract controller
  */
@@ -13,7 +17,7 @@ module.exports = createCoreController(
     async create(ctx) {
       // 먼저 해당 하는 배달업체와의 계약 중 status가 approved또는 null로 되어있는것이 하나도 있으면 안된다.
       // 계약서를 작성한다.
-      // details, description, deliveryAgency
+      // details, description, deliveryAgency, expirationDate
       const { details, description, deliveryAgency, expirationDate } =
         ctx.request.body;
       const requesterId = ctx.state.user.id;
@@ -82,11 +86,10 @@ module.exports = createCoreController(
               },
             ],
           },
-          populate: ["requester", "responder"],
+          populate: ["requester", "responder", "deliveryAgency"],
         }
       );
     },
-
     async getMyList(ctx) {
       const userId = ctx.state.user.id;
       return await strapi.service("api::contract.contract").getContracts({
@@ -109,15 +112,74 @@ module.exports = createCoreController(
       });
     },
     async response(ctx) {
+      const contractId = ctx.params.id;
       // body로 계약 승인 여부를 true 또는 false로 받는다
+      const { approve } = ctx.request.body;
+      const contractInfo = strapi.entityService.findOne(
+        "api::contract.contract",
+        contractId,
+        { populate: ["requester", "responder"] }
+      );
       // 먼저 계약서의 status가 null이라면 패스
+      if (contractInfo.status !== null) {
+        return {
+          message: "계약상태가 계약중 상태가 아닙니다.",
+        };
+      }
       // 두 번째로 계약서의 responder가 현재 유저와 일치해야한다
+      if (contractInfo.requester.id !== ctx.state.user.id) {
+        return {
+          message: "회원님이 응답할 수 있는 계약이 아닙니다",
+        };
+      }
       // 마지막으로 계약서의 status를 Approved 또는 Rejected로 결정한다
+      await strapi.entityService.update("api::contract.contract", contractId, {
+        status: approve ? "approved" : "rejected",
+      });
+      return;
     },
     async cancel(ctx) {
-      // 이것은 소상공인과 배달대행 모두가 취소의사가 있어야 state를 cancel로 바꿀 수 있다.
+      const contractId = ctx.params.id;
+      const contractInfo = await strapi.entityService.findOne(
+        "api::contract.contract",
+        contractId,
+        {
+          filter: {
+            $or: [
+              {
+                requester: userId,
+              },
+              {
+                responder: userId,
+              },
+            ],
+          },
+        }
+      );
+      if (contractInfo.requesterCancel && contractInfo.responderCancel) {
+        await strapi.entityService.update(
+          "api::contract.contract",
+          contractId,
+          {
+            status: "canceled",
+          }
+        );
+        return;
+        // 이것은 소상공인과 배달대행 모두가 취소의사가 있어야 state를 cancel로 바꿀 수 있다.
+      }
+      const cancelObj = {
+        [BusinessType.MERCHANT]: {
+          requesterCancel: true,
+        },
+        [BusinessType.DELIVERY]: {
+          responderCancel: true,
+        },
+      };
+      await strapi.entityService.update("api::contract.contract", contractId, {
+        ...cancelObj[ctx.state.user.businessType],
+      });
+      return;
     },
-
     async edit(ctx) {
       const contractId = ctx.request.params.id;
       const userId = ctx.state.userId;
