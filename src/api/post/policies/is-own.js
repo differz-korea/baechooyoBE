@@ -1,17 +1,16 @@
-module.exports = (policyContext, config, { strapi }) => {
+module.exports = async (policyContext, config, { strapi }) => {
   const { PolicyError } = require("@strapi/utils").errors;
 
-  let populate = [...config.populate].filter((element) => element !== "writer");
-
-  const postInfo = strapi.entityService.findOne(
+  const postInfo = await strapi.entityService.findOne(
     "api::post.post",
     policyContext.params.id,
     {
-      populate: ["writer", ...populate],
+      populate: ["user"],
     }
   );
-  if (postInfo.writer.id !== policyContext.state.user.id) {
-    throw new PolicyError(`회원님의 글이 아닙니다!`);
+
+  if (!postInfo || postInfo.user.id !== policyContext.state.user.id) {
+    throw new PolicyError(`회원님의 글이 아니거나 존재하지 않는 게시글입니다!`);
   }
   policyContext.state.post = postInfo;
   return true;

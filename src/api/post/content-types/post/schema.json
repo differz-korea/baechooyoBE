@@ -13,16 +13,17 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "content": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
-    "writer": {
+    "user": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "posts"
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     },
     "comments": {
       "type": "relation",
@@ -36,7 +37,8 @@
         "free",
         "qna",
         "branch"
-      ]
+      ],
+      "required": true
     }
   }
 }
