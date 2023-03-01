@@ -29,6 +29,14 @@
       "relation": "oneToMany",
       "target": "api::comment.comment",
       "mappedBy": "post"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "free",
+        "qna",
+        "branch"
+      ]
     }
   }
 }

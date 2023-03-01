@@ -1,9 +1,11 @@
-'use strict';
+"use strict";
 
 /**
  * post controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+const { createCoreController } = require("@strapi/strapi").factories;
 
-module.exports = createCoreController('api::post.post');
+module.exports = createCoreController("api::post.post", ({ strapi }) => ({
+  async testHandler() {},
+}));
