@@ -16,7 +16,7 @@ module.exports = {
       handler: "delivery-agency.registerOrEdit",
       config: {
         policies: [
-          /** 계정이 배달업체로 등록된 사용자만 등록 할 수 있다  */
+          /** 계정이 배달업체로 등록된 사용자만 등록 할 수 있다 */
           {
             name: "global::business-type-check",
             config: BusinessType.DELIVERY,
@@ -34,7 +34,7 @@ module.exports = {
       method: "GET",
       /** 자신 외에 타 배달대행업체 정보를 불러오는 라우트 */
       path: "/delivery-agency/:id",
-      handler: "delivery-agency.getById",
+      handler: "delivery-agency.findOne",
     },
     {
       method: "GET",
