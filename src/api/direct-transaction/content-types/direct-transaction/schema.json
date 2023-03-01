@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "direct_transactions",
+  "info": {
+    "singularName": "direct-transaction",
+    "pluralName": "direct-transactions",
+    "displayName": "directTransaction",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "productName": {
+      "type": "string"
+    },
+    "productPrice": {
+      "type": "integer"
+    },
+    "transactionLocation": {
+      "type": "string"
+    },
+    "productImage": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "productExplain": {
+      "type": "text"
+    },
+    "post": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::post.post"
+    }
+  }
+}
