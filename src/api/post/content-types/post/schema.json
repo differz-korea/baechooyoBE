@@ -20,7 +20,7 @@
       "type": "text",
       "required": true
     },
-    "user": {
+    "writer": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
@@ -39,6 +39,10 @@
         "branch"
       ],
       "required": true
+    },
+    "views": {
+      "type": "integer",
+      "default": 0
     }
   }
 }

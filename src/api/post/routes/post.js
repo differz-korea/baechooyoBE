@@ -10,11 +10,13 @@ module.exports = {
       method: "GET",
       path: "/post",
       handler: "post.find",
-      //query로 post type을 분류해서 요청
     },
     {
       method: "GET",
       path: "/post/:id",
+      config: {
+        middlewares: ["api::post.click-count"],
+      },
       handler: "post.findOne",
     },
     {
