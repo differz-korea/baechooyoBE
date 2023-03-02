@@ -8,32 +8,25 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
     "productName": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "productPrice": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "transactionLocation": {
-      "type": "string"
-    },
-    "productImage": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "type": "string",
+      "required": true
     },
     "productExplain": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "post": {
       "type": "relation",

@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -31,8 +31,7 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::delivery-agency.delivery-agency",
-      "inversedBy": "reviews",
-      "required": true
+      "inversedBy": "reviews"
     }
   }
 }

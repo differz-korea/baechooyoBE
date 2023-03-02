@@ -57,6 +57,16 @@
       "relation": "oneToOne",
       "target": "api::job.job",
       "inversedBy": "post"
+    },
+    "files": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }

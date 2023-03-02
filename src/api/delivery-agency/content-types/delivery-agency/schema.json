@@ -93,8 +93,7 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::delivery-brand.delivery-brand",
-      "inversedBy": "deliveryAgencies",
-      "required": true
+      "inversedBy": "deliveryAgencies"
     },
     "reviews": {
       "type": "relation",
@@ -126,6 +125,9 @@
     "certified": {
       "type": "boolean",
       "default": false
+    },
+    "images": {
+      "type": "json"
     }
   }
 }

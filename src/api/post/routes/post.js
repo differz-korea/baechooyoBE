@@ -32,7 +32,7 @@ module.exports = {
       method: "PUT",
       path: "/post/:id",
       handler: "post.update",
-      config: { policies: ["is-own"] },
+      config: { policies: ["is-own"], middlewares: ["api::post.update"] },
     },
     {
       method: "DELETE",

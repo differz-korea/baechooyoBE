@@ -121,7 +121,7 @@ module.exports = createCoreController(
           contractId,
           {
             status: "canceled",
-            statusAt: new Date().toLocaleDateString(),
+            statusAt: new Date(),
           }
         );
         return {};
