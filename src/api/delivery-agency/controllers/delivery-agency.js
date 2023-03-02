@@ -16,14 +16,6 @@ module.exports = createCoreController(
         user: ctx.state.user,
       });
     },
-    async getById(ctx) {
-      const deliveryAgencyId = ctx.params.id;
-      return await this.service.getDeliveryAgency({
-        where: {
-          id: deliveryAgencyId,
-        },
-      });
-    },
     async getByUser(ctx) {
       return await this.service.getDeliveryAgency({
         where: {
