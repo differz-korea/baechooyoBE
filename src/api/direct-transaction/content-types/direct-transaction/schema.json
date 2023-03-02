@@ -38,7 +38,8 @@
     "post": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::post.post"
+      "target": "api::post.post",
+      "mappedBy": "directTransaction"
     }
   }
 }

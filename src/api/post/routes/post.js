@@ -3,7 +3,7 @@
 /**
  * post router
  */
-// 자유게시판, 지점장게시판, QNA와 같은 일반적인 글들을 담당하는 라우터입니다 :)
+// 자유게시판, 지점장게시판, QNA와 같은 일반적인 글 + 구인구직, 직거래 글들을 담당하는 라우터입니다 :)
 module.exports = {
   routes: [
     {
@@ -23,6 +23,10 @@ module.exports = {
       method: "POST",
       path: "/post",
       handler: "post.create",
+      //생성시,
+      config: {
+        middlewares: ["api::post.create"],
+      },
     },
     {
       method: "PUT",

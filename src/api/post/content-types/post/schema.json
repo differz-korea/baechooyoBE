@@ -45,6 +45,18 @@
     "views": {
       "type": "integer",
       "default": 0
+    },
+    "directTransaction": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::direct-transaction.direct-transaction",
+      "inversedBy": "post"
+    },
+    "job": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::job.job",
+      "inversedBy": "post"
     }
   }
 }

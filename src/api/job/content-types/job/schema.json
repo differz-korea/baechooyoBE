@@ -13,29 +13,28 @@
   "pluginOptions": {},
   "attributes": {
     "location": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "salary": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "jobExplain": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "explainImages": {
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images"]
     },
     "post": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::post.post"
+      "target": "api::post.post",
+      "mappedBy": "job"
     }
   }
 }
