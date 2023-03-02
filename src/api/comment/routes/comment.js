@@ -1,9 +1,31 @@
-'use strict';
+"use strict";
 
 /**
  * comment router
  */
-
-const { createCoreRouter } = require('@strapi/strapi').factories;
-
-module.exports = createCoreRouter('api::comment.comment');
+module.exports = {
+  routes: [
+    {
+      method: "GET",
+      path: "/comment",
+      handler: "comment.find",
+    },
+    {
+      method: "POST",
+      path: "/comment",
+      handler: "comment.create",
+    },
+    {
+      method: "PUT",
+      path: "/comment/:id",
+      handler: "comment.update",
+      config: { policies: ["is-own"] },
+    },
+    {
+      method: "DELETE",
+      path: "/comment/:id",
+      handler: "comment.delete",
+      config: { policies: ["is-own"] },
+    },
+  ],
+};
