@@ -47,6 +47,7 @@ module.exports = createCoreService(
           data: {
             ...deliveryAgencyInfo,
             user: user.id,
+            name: user.businessName,
           },
         }
       );

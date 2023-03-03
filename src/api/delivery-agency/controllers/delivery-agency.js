@@ -21,7 +21,28 @@ module.exports = createCoreController(
         where: {
           user: ctx.state.user.id,
         },
+        populate: {
+          deliveryBrand: true,
+          user: true,
+          ratePlan: true,
+          deliveryLocations: true,
+        },
       });
+    },
+    async findOne(ctx) {
+      return await strapi.entityService.findOne(
+        "api::delivery-agency.delivery-agency",
+        ctx.params.id,
+        {
+          populate: {
+            //리뷰수, 리뷰 평균
+            deliveryBrand: true,
+            user: true,
+            ratePlan: true,
+            deliveryLocations: true,
+          },
+        }
+      );
     },
     async getForMain(ctx) {
       // 업체명, 영업시간, 평점평균 노출, 인증배찌, 쿠폰 노출 (전국 기준)
@@ -41,9 +62,18 @@ module.exports = createCoreController(
         await daIdList.map(async ({ deliveryAgencyId }) => {
           const deliveryAgencyInfo = await strapi.entityService.findOne(
             "api::delivery-agency.delivery-agency",
-            deliveryAgencyId
+            deliveryAgencyId,
+            {
+              populate: {
+                //리뷰수, 리뷰 평균
+                deliveryBrand: true,
+                user: true,
+                ratePlan: true,
+                deliveryLocations: true,
+              },
+            }
           );
-          list.push(deliveryAgencyInfo);
+          contractOrderList.push(deliveryAgencyInfo);
         })
       );
       return {
