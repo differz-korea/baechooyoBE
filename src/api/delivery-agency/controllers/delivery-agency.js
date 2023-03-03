@@ -45,16 +45,26 @@ module.exports = createCoreController(
       );
     },
     async getForMain(ctx) {
+      const populateForMainPage = {
+        deliveryBrand: true,
+        ratePlan: true,
+      };
       // 업체명, 영업시간, 평점평균 노출, 인증배찌, 쿠폰 노출 (전국 기준)
       // 1. 계약순서
       // 2. 리뷰수와 평점이 높은 순
-      const sql = `select max(contracts.status_at) as lastContract, cd.delivery_agency_id as deliveryAgencyId
+      // 계약순서 순인 SQL이다.
+
+      let sql = `select 
+      max(contracts.status_at) as lastContract, 
+      cd.delivery_agency_id as deliveryAgencyId
       from contracts, contracts_delivery_agency_links as cd 
-      where contracts.id = cd.contract_id and contracts.status='approved' 
+      where contracts.id = cd.contract_id 
+      and contracts.status='approved' 
       group by cd.delivery_agency_id
       order by lastContract desc
       limit 30;`;
-      const [daIdList, meta] = await strapi.db.connection.raw(sql);
+
+      let [daIdList, meta] = await strapi.db.connection.raw(sql);
 
       const contractOrderList = [];
 
@@ -64,20 +74,34 @@ module.exports = createCoreController(
             "api::delivery-agency.delivery-agency",
             deliveryAgencyId,
             {
-              populate: {
-                //리뷰수, 리뷰 평균
-                deliveryBrand: true,
-                user: true,
-                ratePlan: true,
-                deliveryLocations: true,
-              },
+              populate: populateForMainPage,
             }
           );
           contractOrderList.push(deliveryAgencyInfo);
         })
       );
+      sql = `SELECT avg(reviews.score) as avgScore, delivery_agency_id  as deliveryAgencyId
+      FROM reviews, reviews_delivery_agency_links as rd 
+      where reviews.id=rd.review_id 
+      group by rd.delivery_agency_id
+      order by avgScore desc limit 30;`;
+      let scoreOrderList = [];
+      [daIdList, meta] = await strapi.db.connection.raw(sql);
+      await Promise.all(
+        await daIdList.map(async ({ deliveryAgencyId, avgScore }) => {
+          const deliveryAgencyInfo = await strapi.entityService.findOne(
+            "api::delivery-agency.delivery-agency",
+            deliveryAgencyId,
+            {
+              populate: populateForMainPage,
+            }
+          );
+          scoreOrderList.push({ ...deliveryAgencyInfo, avgScore });
+        })
+      );
       return {
         contractOrderList,
+        scoreOrderList,
       };
     },
     async getByLocations(ctx) {

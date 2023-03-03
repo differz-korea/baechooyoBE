@@ -10,7 +10,7 @@ module.exports = createCoreController("api::review.review", ({ strapi }) => ({
   // 리뷰 작성
   async create(ctx) {
     const { deliveryAgency, score, content } = ctx.request.body;
-    //1. 해당업체와의 체결된 계약이 존재하는지, 계약 응답일로부터 7일이 지났는지 체크
+    // 1. 해당업체와의 체결된 계약이 존재하는지, 계약 응답일로부터 7일이 지났는지 체크
     await strapi
       .service("api::contract.contract")
       .canCreateReview(ctx.state.user.id, deliveryAgency);

@@ -135,6 +135,12 @@
     },
     "name": {
       "type": "string"
+    },
+    "reviewCount": {
+      "type": "integer"
+    },
+    "reviewAverage": {
+      "type": "integer"
     }
   }
 }
