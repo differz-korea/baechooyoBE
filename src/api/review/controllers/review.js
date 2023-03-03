@@ -24,6 +24,27 @@ module.exports = createCoreController("api::review.review", ({ strapi }) => ({
       },
     });
   },
+  async find(ctx) {
+    let { page, limit } = ctx.query;
+    page = parseInt(page) || 1;
+    limit = parseInt(limit) || 10;
+    const offset = (page - 1) * limit;
+    const articles = await strapi.db.query("api::review.review").findWithCount({
+      offset,
+      limit,
+      where: { deliveryAgency: ctx.query.deliveryAgency },
+      populate: ["writer"],
+    });
+    const totalPages = Math.ceil(articles[1] / limit);
+    return {
+      articles: articles[0],
+      pagination: {
+        page: page,
+        pageSize: totalPages,
+        total: articles[1],
+      },
+    };
+  },
   // 리뷰 삭제
   async delete(ctx) {
     const reviewId = ctx.params.id;
@@ -40,6 +61,6 @@ module.exports = createCoreController("api::review.review", ({ strapi }) => ({
     }
     await strapi.entityService.delete("api::review.review", reviewId);
     //2. 리뷰를 삭제한다.
-    return {};
+    return "";
   },
 }));

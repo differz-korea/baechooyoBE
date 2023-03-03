@@ -33,40 +33,26 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": [
-        "free",
-        "qna",
-        "branch",
-        "job",
-        "direct-transaction"
-      ],
+      "enum": ["free", "qna", "branch", "job", "direct-transaction"],
       "required": true
     },
     "views": {
       "type": "integer",
       "default": 0
     },
-    "directTransaction": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "salary": {
+      "type": "integer"
+    },
+    "location": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::direct-transaction.direct-transaction",
-      "inversedBy": "post"
-    },
-    "job": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::job.job",
-      "inversedBy": "post"
-    },
-    "files": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      "target": "api::location.location"
     }
   }
 }

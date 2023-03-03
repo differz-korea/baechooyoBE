@@ -31,7 +31,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::delivery-agency.delivery-agency",
-      "inversedBy": "reviews"
+      "inversedBy": "reviews",
+      "required": true
     }
   }
 }

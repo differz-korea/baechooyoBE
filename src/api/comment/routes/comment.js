@@ -3,29 +3,19 @@
 /**
  * comment router
  */
-module.exports = {
-  routes: [
-    {
-      method: "GET",
-      path: "/comment",
-      handler: "comment.find",
+
+const { createCoreRouter } = require("@strapi/strapi").factories;
+
+module.exports = createCoreRouter("api::comment.comment", {
+  except: ["update"],
+  config: {
+    find: {
+      // /api/comments?filters[post]=postId
+      // postId를 통해 해당 post의 댓글들을 불러올 수 있다.
     },
-    {
-      method: "POST",
-      path: "/comment",
-      handler: "comment.create",
+    create: {},
+    delete: {
+      policies: ["is-own"],
     },
-    {
-      method: "PUT",
-      path: "/comment/:id",
-      handler: "comment.update",
-      config: { policies: ["is-own"] },
-    },
-    {
-      method: "DELETE",
-      path: "/comment/:id",
-      handler: "comment.delete",
-      config: { policies: ["is-own"] },
-    },
-  ],
-};
+  },
+});

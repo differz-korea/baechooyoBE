@@ -13,18 +13,21 @@
   "pluginOptions": {},
   "attributes": {
     "content": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "writer": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "target": "plugin::users-permissions.user",
+      "required": true
     },
     "post": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::post.post",
-      "inversedBy": "comments"
+      "inversedBy": "comments",
+      "required": true
     }
   }
 }

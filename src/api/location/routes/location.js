@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * job router
+ * location router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::job.job');
+module.exports = createCoreRouter('api::location.location');

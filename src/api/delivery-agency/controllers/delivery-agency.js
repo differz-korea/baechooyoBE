@@ -27,6 +27,28 @@ module.exports = createCoreController(
       // 업체명, 영업시간, 평점평균 노출, 인증배찌, 쿠폰 노출 (전국 기준)
       // 1. 계약순서
       // 2. 리뷰수와 평점이 높은 순
+      const sql = `select max(contracts.status_at) as lastContract, cd.delivery_agency_id as deliveryAgencyId
+      from contracts, contracts_delivery_agency_links as cd 
+      where contracts.id = cd.contract_id and contracts.status='approved' 
+      group by cd.delivery_agency_id
+      order by lastContract desc
+      limit 30;`;
+      const [daIdList, meta] = await strapi.db.connection.raw(sql);
+
+      const contractOrderList = [];
+
+      await Promise.all(
+        await daIdList.map(async ({ deliveryAgencyId }) => {
+          const deliveryAgencyInfo = await strapi.entityService.findOne(
+            "api::delivery-agency.delivery-agency",
+            deliveryAgencyId
+          );
+          list.push(deliveryAgencyInfo);
+        })
+      );
+      return {
+        contractOrderList,
+      };
     },
     async getByLocations(ctx) {
       // 여러개 읍면동 코드를 통한 기준으로 찾아주는 메서드 이다.

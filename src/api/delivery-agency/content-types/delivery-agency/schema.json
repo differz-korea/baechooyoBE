@@ -113,21 +113,24 @@
       "target": "api::rate-plan.rate-plan",
       "inversedBy": "deliveryAgencies"
     },
-    "deliveryLocations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::delivery-location.delivery-location",
-      "inversedBy": "deliveryAgencies"
-    },
     "underContract": {
       "type": "integer"
     },
-    "certified": {
+    "baechooyoCertified": {
       "type": "boolean",
       "default": false
     },
+    "deliveryLocations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::location.location"
+    },
     "images": {
-      "type": "json"
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }
