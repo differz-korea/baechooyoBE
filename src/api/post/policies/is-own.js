@@ -8,7 +8,6 @@ module.exports = async (policyContext, config, { strapi }) => {
       populate: ["writer"],
     }
   );
-
   if (!postInfo || postInfo.writer.id !== policyContext.state.user.id) {
     throw new PolicyError(`회원님의 글이 아니거나 존재하지 않는 게시글입니다!`);
   }

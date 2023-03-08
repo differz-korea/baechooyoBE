@@ -11,6 +11,7 @@ module.exports = createCoreController("api::post.post", ({ strapi }) => ({
     let { page, limit } = ctx.query;
     page = parseInt(page) || 1;
     limit = parseInt(limit) || 10;
+
     const offset = (page - 1) * limit;
     const articles = await strapi.db.query("api::post.post").findWithCount({
       offset,
@@ -19,6 +20,9 @@ module.exports = createCoreController("api::post.post", ({ strapi }) => ({
         writer: {
           select: ["businessName", "id"],
         },
+      },
+      orderBy: {
+        createdAt: "DESC",
       },
     });
     const totalPages = Math.ceil(articles[1] / limit);
