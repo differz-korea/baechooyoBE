@@ -33,6 +33,7 @@ module.exports = createCoreController("api::comment.comment", ({ strapi }) => ({
     console.log(data);
     return data;
   },
+
   // async delete(ctx) {
   //   const commentId = ctx.params.id;
   //   return await strapi.db.query("api::comment.comment").delete({
