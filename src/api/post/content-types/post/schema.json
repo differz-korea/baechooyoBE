@@ -33,7 +33,13 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": ["free", "qna", "branch", "job", "direct-transaction"],
+      "enum": [
+        "free",
+        "qna",
+        "transaction",
+        "job",
+        "branch"
+      ],
       "required": true
     },
     "views": {

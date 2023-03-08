@@ -70,15 +70,18 @@
       "private": true
     },
     "registerRoute": {
-      "type": "string"
+      "type": "string",
+      "private": true
     },
     "snsAgreement": {
       "type": "boolean",
-      "required": true
+      "required": true,
+      "private": true
     },
     "adAgreement": {
       "type": "boolean",
-      "required": true
+      "required": true,
+      "private": true
     },
     "businessId": {
       "type": "string",
