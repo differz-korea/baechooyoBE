@@ -8,12 +8,29 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::comment.comment", ({ strapi }) => ({
   async create(ctx) {
-    await strapi.entityService.create("api::comment.comment", {
+    return await strapi.entityService.create("api::comment.comment", {
       data: {
         ...ctx.request.body,
         writer: ctx.state.user.id,
       },
     });
-    return "";
+  },
+  async find(ctx) {
+    const postId = ctx.query.post;
+    const data = await strapi.db.query("api::comment.comment").findMany({
+      where: {
+        post: postId,
+      },
+      populate: {
+        writer: {
+          select: ["businessName", "id"],
+        },
+      },
+      orderBy: {
+        createdAt: "DESC",
+      },
+    });
+    console.log(data);
+    return data;
   },
 }));

@@ -15,7 +15,6 @@ module.exports = (config, { strapi }) => {
         id: postId,
       },
     });
-    console.log(p);
     return await next();
   };
 };

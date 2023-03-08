@@ -33,7 +33,11 @@ module.exports = createCoreController("api::review.review", ({ strapi }) => ({
       offset,
       limit,
       where: { deliveryAgency: ctx.query.deliveryAgency },
-      populate: ["writer"],
+      populate: {
+        writer: {
+          select: [businessName, id],
+        },
+      },
     });
     const totalPages = Math.ceil(articles[1] / limit);
     return {
