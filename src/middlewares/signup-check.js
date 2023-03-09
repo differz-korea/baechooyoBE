@@ -7,6 +7,9 @@ module.exports = (config, { strapi }) => {
     if (ctx.request.body.businessType === BusinessType.MERCHANT) {
       delete ctx.request.body.deliveryBrand;
     }
+
+    //추천인 포인트 기능을 구현할거면 여기서 하자!
+
     return await next();
   };
 };

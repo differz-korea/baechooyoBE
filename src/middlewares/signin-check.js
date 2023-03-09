@@ -13,16 +13,16 @@ module.exports = (config, { strapi }) => {
         },
       });
     if (!entry) {
-      ApplicationError("없는 유저");
+      return ctx.badRequest("존재하지 않는 유저");
     }
     if (!ctx.request.body.businessType) {
-      ApplicationError(
+      return ctx.badRequest(
         "어떤 비즈니스타입의 유저로 로그인할지 businessType을 보내주세요"
       );
     }
     console.log(entry.businessType, ctx.request.body.businessType);
     if (entry.businessType !== ctx.request.body.businessType) {
-      ApplicationError("올바른 비즈니스 타입으로 로그인해주세요");
+      return ctx.badRequest("올바른 비즈니스 타입으로 로그인해주세요");
     }
 
     return await next();

@@ -97,10 +97,7 @@
     },
     "businessType": {
       "type": "enumeration",
-      "enum": [
-        "DELIVERY",
-        "MERCHANT"
-      ],
+      "enum": ["DELIVERY", "MERCHANT"],
       "required": true
     },
     "reviews": {
@@ -113,6 +110,10 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::delivery-brand.delivery-brand"
+    },
+    "name": {
+      "type": "string",
+      "required": true
     }
   }
 }
