@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "phone_auths",
+  "info": {
+    "singularName": "phone-auth",
+    "pluralName": "phone-auths",
+    "displayName": "PhoneAuth",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "key": {
+      "type": "string"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "isAuthenticated": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
