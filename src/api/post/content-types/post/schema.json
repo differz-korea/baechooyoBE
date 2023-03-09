@@ -36,9 +36,9 @@
       "enum": [
         "free",
         "qna",
+        "agency",
         "transaction",
-        "job",
-        "branch"
+        "job"
       ],
       "required": true
     },

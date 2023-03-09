@@ -10,9 +10,9 @@ module.exports = createCoreController("api::post.post", ({ strapi }) => ({
   async find(ctx) {
     return await strapi.service("api::post.post").find(ctx);
   },
-  async findByTitleOrContent(ctx) {
-    return await strapi.service("api::post.post").find(ctx);
-  },
+  // async findByTitleOrContent(ctx) {
+  //   return await strapi.service("api::post.post").find(ctx);
+  // },
   async findOne(ctx) {
     return await strapi.query("api::post.post").findOne({
       where: {
@@ -44,10 +44,6 @@ module.exports = createCoreController("api::post.post", ({ strapi }) => ({
     });
   },
   async delete(ctx) {
-    return await strapi.entityService.delete("api::post.post", {
-      where: {
-        id: ctx.params.id,
-      },
-    });
+    return await strapi.entityService.delete("api::post.post", ctx.params.id);
   },
 }));
