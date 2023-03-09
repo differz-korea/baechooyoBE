@@ -73,21 +73,7 @@
       "type": "string",
       "private": true
     },
-    "snsAgreement": {
-      "type": "boolean",
-      "required": true,
-      "private": true
-    },
-    "adAgreement": {
-      "type": "boolean",
-      "required": true,
-      "private": true
-    },
     "businessId": {
-      "type": "string",
-      "required": true
-    },
-    "businessLocation": {
       "type": "string",
       "required": true
     },
@@ -114,6 +100,18 @@
     "name": {
       "type": "string",
       "required": true
+    },
+    "snsAgreement": {
+      "type": "boolean"
+    },
+    "adAgreement": {
+      "type": "boolean"
+    },
+    "businessLocation": {
+      "required": true,
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::location.location"
     }
   }
 }
