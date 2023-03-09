@@ -108,6 +108,11 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "writer"
+    },
+    "deliveryBrand": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::delivery-brand.delivery-brand"
     }
   }
 }

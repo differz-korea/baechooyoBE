@@ -89,12 +89,6 @@
       "type": "text",
       "required": true
     },
-    "deliveryBrand": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::delivery-brand.delivery-brand",
-      "inversedBy": "deliveryAgencies"
-    },
     "reviews": {
       "type": "relation",
       "relation": "oneToMany",

@@ -21,6 +21,10 @@
     "isAuthenticated": {
       "type": "boolean",
       "default": false
+    },
+    "isExpired": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

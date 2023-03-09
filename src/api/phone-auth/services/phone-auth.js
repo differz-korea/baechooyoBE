@@ -9,7 +9,7 @@ const { createCoreService } = require("@strapi/strapi").factories;
 module.exports = createCoreService(
   "api::phone-auth.phone-auth",
   ({ strapi }) => ({
-    async checkAndUseKey(ctx) {
+    async checkAndUseKey(phoneNumber, key) {
       const findedKey = await strapi.db
         .query("api::phone-auth.phone-auth")
         .findOne({
@@ -17,15 +17,21 @@ module.exports = createCoreService(
             phoneNumber,
             key,
             isAuthenticated: true,
+            isExpired: false,
           },
           orderBy: {
             createdAt: "DESC",
           },
         });
       if (findedKey) {
-        await strapi.entityService.delete(
+        await strapi.entityService.update(
           "api::phone-auth.phone-auth",
-          findedKey.id
+          findedKey.id,
+          {
+            data: {
+              isExpired: true,
+            },
+          }
         );
         return true;
       }

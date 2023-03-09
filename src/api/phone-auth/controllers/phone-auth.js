@@ -10,19 +10,27 @@ module.exports = createCoreController(
   "api::phone-auth.phone-auth",
   ({ strapi }) => ({
     async sendKey(ctx) {
-      //휴대전화번호로 인증키를 보내는 컨트롤러
+      // 휴대전화번호로 인증키를 보내는 컨트롤러
       // 1. user에 현재 등록된 전화가 있는지 확인
       const { phoneNumber } = ctx.request.body;
+      if (!phoneNumber) {
+        return ctx.badRequest("휴대전화번호 보내주세요");
+      }
       const entry = await strapi.db
         .query("plugin::users-permissions.user")
         .findOne({
           where: {
-            phoneNumber,
+            phoneNumber: phoneNumber,
           },
         });
       if (entry) {
         ctx.badRequest("이미 해당 휴대전화번호로 등록된 유저가 있습니다!");
       }
+      await strapi.db.query("api::phone-auth.phone-auth").delete({
+        where: {
+          phoneNumber,
+        },
+      });
       // 2. 난수 생성
       let key = "";
       for (let i = 0; i < 6; i++) {
@@ -50,6 +58,7 @@ module.exports = createCoreController(
             phoneNumber,
             key,
             isAuthenticated: false,
+            isExpired: false,
           },
           orderBy: {
             createdAt: "DESC",
@@ -62,12 +71,14 @@ module.exports = createCoreController(
       var elapsedMSec = new Date().getTime() - requestDate.getTime();
       var elapsedMin = elapsedMSec / 1000 / 60;
       if (elapsedMin > 3) {
-        //인증 시간 초과
+        console.log("인증시간 초과됨");
+        // 인증 시간 초과
         return false;
       }
-      await strapi.entityService.update("api::phone-auth.phone-auth", {
+      await strapi.db.query("api::phone-auth.phone-auth").update({
         data: {
           isAuthenticated: true,
+          isExpired: false,
         },
         where: {
           id: findedKey.id,
