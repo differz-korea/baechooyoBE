@@ -17,22 +17,12 @@ module.exports = createCoreService(
             phoneNumber,
             key,
             isAuthenticated: true,
-            isExpired: false,
           },
           orderBy: {
             createdAt: "DESC",
           },
         });
       if (findedKey) {
-        await strapi.entityService.update(
-          "api::phone-auth.phone-auth",
-          findedKey.id,
-          {
-            data: {
-              isExpired: true,
-            },
-          }
-        );
         return true;
       }
       return false;

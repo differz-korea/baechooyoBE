@@ -8,7 +8,23 @@ module.exports = (config, { strapi }) => {
     if (ctx.request.body.businessType === BusinessType.MERCHANT) {
       delete ctx.request.body.deliveryBrand;
     }
-
+    //동일 아이디 이메일 체크
+    const { username, email } = ctx.request.body;
+    const entry = await strapi.db
+      .query("plugin::users-permissions.user")
+      .findOne({
+        where: {
+          $or: [{ email: email }, { username: username }],
+        },
+      });
+    if (entry) {
+      if (entry.email === email) {
+        return ctx.badRequest("이미 사용중인 이메일입니다.");
+      }
+      if (entry.username === username) {
+        return ctx.badRequest("이미 사용중인 아이디입니다.");
+      }
+    }
     //사업자 진위 확인
     const { businessId, startDate, name, businessName } = ctx.request.body;
     console.log(businessId, startDate, name, businessName);
@@ -25,7 +41,6 @@ module.exports = (config, { strapi }) => {
         ],
       }
     );
-    console.log(data);
     if (!data.data[0].status) {
       return ctx.badRequest("사업자 진위 확인 과정에 실패하였습니다");
     }

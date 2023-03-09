@@ -42,7 +42,6 @@ module.exports = createCoreController(
           phoneNumber,
           key,
           isAuthenticated: false,
-          isExpired: false,
         },
       });
       //4. 인증키를 네이버 클라우드 플랫폼으로 보낸다.
@@ -58,7 +57,6 @@ module.exports = createCoreController(
             phoneNumber,
             key,
             isAuthenticated: false,
-            isExpired: false,
           },
           orderBy: {
             createdAt: "DESC",
