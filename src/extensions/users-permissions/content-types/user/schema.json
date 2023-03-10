@@ -70,21 +70,10 @@
       "private": true
     },
     "registerRoute": {
-      "type": "string"
-    },
-    "snsAgreement": {
-      "type": "boolean",
-      "required": true
-    },
-    "adAgreement": {
-      "type": "boolean",
-      "required": true
+      "type": "string",
+      "private": true
     },
     "businessId": {
-      "type": "string",
-      "required": true
-    },
-    "businessLocation": {
       "type": "string",
       "required": true
     },
@@ -94,10 +83,7 @@
     },
     "businessType": {
       "type": "enumeration",
-      "enum": [
-        "DELIVERY",
-        "MERCHANT"
-      ],
+      "enum": ["DELIVERY", "MERCHANT"],
       "required": true
     },
     "reviews": {
@@ -105,6 +91,27 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "writer"
+    },
+    "deliveryBrand": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::delivery-brand.delivery-brand"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "snsAgreement": {
+      "type": "boolean"
+    },
+    "adAgreement": {
+      "type": "boolean"
+    },
+    "businessLocation": {
+      "required": true,
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::location.location"
     }
   }
 }

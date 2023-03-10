@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * job service
+ * location service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::job.job');
+module.exports = createCoreService('api::location.location');

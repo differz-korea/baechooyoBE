@@ -1,4 +1,11 @@
 module.exports = ({ env }) => ({
+  "users-permissions": {
+    config: {
+      jwt: {
+        expiresIn: "7d",
+      },
+    },
+  },
   // // enable a plugin that doesn't require any configuration
   // i18n: true,
   // // enable a custom plugin

@@ -89,12 +89,6 @@
       "type": "text",
       "required": true
     },
-    "deliveryBrand": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::delivery-brand.delivery-brand",
-      "inversedBy": "deliveryAgencies"
-    },
     "reviews": {
       "type": "relation",
       "relation": "oneToMany",
@@ -113,21 +107,34 @@
       "target": "api::rate-plan.rate-plan",
       "inversedBy": "deliveryAgencies"
     },
-    "deliveryLocations": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::delivery-location.delivery-location",
-      "inversedBy": "deliveryAgencies"
-    },
     "underContract": {
       "type": "integer"
     },
-    "certified": {
+    "baechooyoCertified": {
       "type": "boolean",
       "default": false
     },
+    "deliveryLocations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::location.location"
+    },
     "images": {
-      "type": "json"
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "reviewCount": {
+      "type": "integer"
+    },
+    "reviewAverage": {
+      "type": "integer"
     }
   }
 }

@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "locations",
+  "info": {
+    "singularName": "location",
+    "pluralName": "locations",
+    "displayName": "location",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "SIDO": {
+      "type": "string"
+    },
+    "SIGUNGU": {
+      "type": "string"
+    },
+    "EUPMEONDONG": {
+      "type": "string"
+    }
+  }
+}
