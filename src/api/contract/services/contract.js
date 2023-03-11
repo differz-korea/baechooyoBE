@@ -115,4 +115,22 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
     }
     throw new PolicyError("고객님이 접근 할 수 없는 계약입니다!");
   },
+  //한 배달대행 업체의 계약상태를 반환한다.
+  async contractsCondition(deliveryAgencyId, status, containExipired = false) {
+    const contractRepository = strapi.db.query("api::contract.contract");
+    const where = {
+      deliveryAgency: deliveryAgencyId,
+      status,
+      expirationDate: {
+        $gt: new Date().toISOString().slice(0, 10),
+      },
+    };
+    if (containExipired) {
+      delete where.expirationDate;
+    }
+    const count = await contractRepository.count({
+      where,
+    });
+    return count;
+  },
 }));

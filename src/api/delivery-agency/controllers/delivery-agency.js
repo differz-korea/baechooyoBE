@@ -42,12 +42,19 @@ module.exports = createCoreController(
     /** 배달대행 DETAIL 페이지에 사용하는 API */
     async getForDetailPage(ctx) {
       // 모두가 보는 페이지
-      return await this.service.getDeliveryAgency({
+      const deliveryInfo = await this.service.getDeliveryAgency({
         id: ctx.params.id,
         isRegistered: true,
       });
+      // 디테일페이지 계약중인 계약 수를 표시해주어야하기 때문에
       // 진행중인 계약수 contractService에 contractsCondition 메서드를 deliveryAgencyId로 호출하여 가져오기
-      // 리뷰수, 리뷰 평균 // 리뷰들 불러오는것은 리뷰컨트롤러에서 자체적으로 처리하기
+      const contractsOnProcessing = await strapi
+        .service("api::contract.contract")
+        .contractsCondition(ctx.params.id, "approved", false);
+      return {
+        ...deliveryInfo,
+        contractsOnProcessing,
+      };
     },
 
     async deleteImage(ctx) {
@@ -142,11 +149,11 @@ module.exports = createCoreController(
     },
     async getByLocations(ctx) {
       // 여러개 읍면동 코드를 통한 기준으로 찾아주는 메서드 이다.
-      const delivery_locations = ctx.request.body.delivery_locations;
+      const deliveryLocations = ctx.request.body.deliveryLocations;
       // [배열형태로 보내도 되고], 일반 number로 보내도 된다
       return await this.service.getDeliveryAgencies({
         where: {
-          delivery_locations,
+          deliveryLocations,
         },
       });
     },
