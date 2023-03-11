@@ -119,7 +119,22 @@
       "relation": "oneToMany",
       "target": "api::location.location"
     },
-    "images": {
+    "reviewCount": {
+      "type": "integer"
+    },
+    "reviewAverage": {
+      "type": "integer"
+    },
+    "documentOfInsurance": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "deliveryAgencyImages": {
       "type": "media",
       "multiple": true,
       "required": false,
@@ -127,14 +142,9 @@
         "images"
       ]
     },
-    "name": {
-      "type": "string"
-    },
-    "reviewCount": {
-      "type": "integer"
-    },
-    "reviewAverage": {
-      "type": "integer"
+    "isRegistered": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
