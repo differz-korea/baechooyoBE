@@ -18,6 +18,7 @@ module.exports = createCoreService(
             user: {
               // 상호명, 개업일자
               select: ["businessName", "startDate", "id"],
+              populate: ["businessLocation"],
             },
             deliveryLocations: {
               select: ["id", "SIDO", "SIGUNGU", "EUPMEONDONG"],
@@ -47,6 +48,7 @@ module.exports = createCoreService(
             user: {
               // 상호명, 개업일자
               select: ["businessName", "startDate", "id"],
+              populate: ["businessLocation"],
             },
             deliveryLocations: {
               select: ["id", "SIDO", "SIGUNGU", "EUPMEONDONG"],
@@ -73,8 +75,6 @@ module.exports = createCoreService(
     /** 배달대행 업체 정보를 추가한다. */
     async updateInfo({ deliveryAgencyInfo, user, files }) {
       // 배달대행정보를 업데이트시킨다.
-      console.log(files);
-      console.log(deliveryAgencyInfo);
       await strapi.db.query("api::delivery-agency.delivery-agency").update({
         data: deliveryAgencyInfo,
         files,
