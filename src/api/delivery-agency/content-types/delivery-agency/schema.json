@@ -119,12 +119,6 @@
       "relation": "oneToMany",
       "target": "api::location.location"
     },
-    "reviewCount": {
-      "type": "integer"
-    },
-    "reviewAverage": {
-      "type": "integer"
-    },
     "documentOfInsurance": {
       "type": "media",
       "multiple": false,
@@ -145,6 +139,9 @@
     "isRegistered": {
       "type": "boolean",
       "default": false
+    },
+    "openingHours": {
+      "type": "string"
     }
   }
 }

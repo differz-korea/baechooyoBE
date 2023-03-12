@@ -18,10 +18,12 @@ module.exports = createCoreController(
       //이것을 처음으로 요청하게 되면, 이제 디테일 페이지 및 메인페이지에 뜰 수 있는 자격이 된다.
       // 처음에는 isRegistered가 false였기 때문에 등록이 다 된 상태가 아닌것이고,
       // 등록을 하게 되면 isRegistered가 true로 바뀌게 된다.
+      delete ctx.request.body.baechooyoCertified;
       return await this.service.updateInfo({
         deliveryAgencyInfo: {
           ...ctx.request.body,
           isRegistered: true,
+          user: ctx.state.user,
         },
         files: ctx.request.files,
         user: ctx.state.user,
@@ -51,6 +53,7 @@ module.exports = createCoreController(
       const contractsOnProcessing = await strapi
         .service("api::contract.contract")
         .contractsCondition(ctx.params.id, "approved", false);
+
       return {
         ...deliveryInfo,
         contractsOnProcessing,
@@ -90,26 +93,23 @@ module.exports = createCoreController(
       const populateForMainPage = {
         deliveryBrand: true,
         ratePlan: true,
+        user: true,
       };
-      // 업체명, 영업시간, 평점평균 노출, 인증배찌, 쿠폰 노출 (전국 기준)
-      // 1. 최근 계 약순서
-      // 2. 리뷰수와 평점이 높은 순
-      // 계약순서 순인 SQL이다.
+      // 업체명, 영업 시간, 평점 평균 노출, 인증배찌, 쿠폰 노출 (전국 기준)
 
+      // 1. 최근 계약 순
       let sql = `select 
       max(contracts.status_at) as lastContract, 
       cd.delivery_agency_id as deliveryAgencyId
       from contracts, contracts_delivery_agency_links as cd 
       where contracts.id = cd.contract_id 
-      and contracts.status='approved' 
+      and contracts.status='approved'
       group by cd.delivery_agency_id
       order by lastContract desc
-      limit 30;`;
+      limit 30`;
 
       let [daIdList, meta] = await strapi.db.connection.raw(sql);
-
       const contractOrderList = [];
-
       await Promise.all(
         await daIdList.map(async ({ deliveryAgencyId }) => {
           const deliveryAgencyInfo = await strapi.entityService.findOne(
@@ -123,11 +123,12 @@ module.exports = createCoreController(
         })
       );
 
-      sql = `SELECT avg(reviews.score) as avgScore, delivery_agency_id  as deliveryAgencyId
+      // 2. 평점이 높은 순
+      sql = `SELECT avg(reviews.score) as avgScore, delivery_agency_id as deliveryAgencyId
       FROM reviews, reviews_delivery_agency_links as rd 
       where reviews.id=rd.review_id 
       group by rd.delivery_agency_id
-      order by avgScore desc limit 30;`;
+      order by avgScore desc limit 30`;
       let scoreOrderList = [];
       [daIdList, meta] = await strapi.db.connection.raw(sql);
       await Promise.all(
@@ -147,6 +148,8 @@ module.exports = createCoreController(
         scoreOrderList,
       };
     },
+
+    //
     async getByLocations(ctx) {
       // 여러개 읍면동 코드를 통한 기준으로 찾아주는 메서드 이다.
       const deliveryLocations = ctx.request.body.deliveryLocations;
