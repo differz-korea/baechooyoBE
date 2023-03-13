@@ -46,7 +46,7 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
           },
         ],
       },
-      orderBy: [{ expirationDate: "desc" }],
+      orderBy: { expirationDate: "desc" },
     });
     if (!existContract) {
       return true;
@@ -143,6 +143,14 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
       orderBy: {
         createdAt: "desc",
       },
+      populate: {
+        requester: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+        responder: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+      },
     });
     return {
       data,
@@ -162,13 +170,10 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
           requester: userId,
         },
         {
-          responser: userId,
+          responder: userId,
         },
       ],
       status,
-      orderBy: {
-        createdAt: "desc",
-      },
     };
 
     if (!status) {
@@ -182,6 +187,19 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
     }
     const [data, count] = await contractRepository.findWithCount({
       where,
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+      populate: {
+        requester: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+        responder: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+      },
     });
     return {
       data,

@@ -48,7 +48,14 @@ module.exports = createCoreController(
         "api::contract.contract",
         contractId,
         {
-          populate: ["requester", "responder", "deliveryAgency"],
+          populate: {
+            requester: {
+              select: ["phoneNumber", "name", "businessId", "businessName"],
+            },
+            responder: {
+              select: ["phoneNumber", "name", "businessId", "businessName"],
+            },
+          },
         }
       );
       await strapi
@@ -57,30 +64,32 @@ module.exports = createCoreController(
 
       return contractInfo;
     },
+
     async getMyList(ctx) {
       const userId = ctx.state.user.id;
-      const onProcessing = await strapi
+      const approved = await strapi
         .service("api::contract.contract")
-        .contractsConditionByUserId(userId, "all", false);
+        .contractsConditionByUserId(userId, "approved", false);
+      const wating = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "wating", false);
+      const canceled = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "canceled", false);
+      const rejected = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "rejected", false);
+      const expired = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, null, true);
 
-      // return await strapi.service("api::contract.contract").getContracts({
-      //   filter: {
-      //     $or: [
-      //       {
-      //         requester: userId,
-      //       },
-      //       {
-      //         responder: userId,
-      //       },
-      //     ],
-      //   },
-      //   populate: ["requester", "responder"],
-      //   orderBy: [
-      //     {
-      //       createdAt: "desc",
-      //     },
-      //   ],
-      // });
+      return {
+        approved,
+        wating,
+        canceled,
+        rejected,
+        expired,
+      };
     },
     async response(ctx) {
       // 계약 승인 여부를 true 또는 false로 받는다
