@@ -28,10 +28,9 @@ module.exports = {
     {
       method: "GET",
       path: "/coupons/:id",
-      handler: "coupon.getCoupon",
+      handler: "coupon.saveCoupon",
       config: {
         policies: [
-          /** 계정이 배달업체로 등록된 사용자만 등록 할 수 있다 */
           {
             name: "global::business-type-check",
             config: BusinessType.MERCHANT,
@@ -39,6 +38,11 @@ module.exports = {
         ],
       },
     },
+    // {
+    //     method : "POST",
+    //     path : "/coupons/canUse/:id",
+    //     handler : "coupon.canUseddddddddd"  
+    // },
     {
       method: "POST",
       path: "/coupons",

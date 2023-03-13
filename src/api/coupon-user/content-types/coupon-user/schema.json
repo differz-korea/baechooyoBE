@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coupon_users",
+  "info": {
+    "singularName": "coupon-user",
+    "pluralName": "coupon-users",
+    "displayName": "CouponUser",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "coupon": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::coupon.coupon",
+      "inversedBy": "couponUsers"
+    }
+  }
+}

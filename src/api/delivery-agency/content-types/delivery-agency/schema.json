@@ -145,7 +145,7 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::coupon.coupon",
-      "mappedBy": "deliveryAgency"
+      "inversedBy": "deliveryAgency"
     }
   }
 }
