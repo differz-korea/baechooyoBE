@@ -182,7 +182,7 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
 
     if (atExpired) {
       where.expirationDate = {
-        $gt: new Date().toISOString().slice(0, 10),
+        $lt: new Date().toISOString().slice(0, 10),
       };
     }
     const [data, count] = await contractRepository.findWithCount({
