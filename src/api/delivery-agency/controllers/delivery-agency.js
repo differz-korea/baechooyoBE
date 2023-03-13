@@ -14,7 +14,6 @@ module.exports = createCoreController(
     //배달대행 정보를 등록 및 저장하는 API이다.
     async registerDeliveryAgencyInfo(ctx) {
       //이것을 요청하기전 프론트에서 validation 작업을 꼭꼭 해주어야함!!
-
       //이것을 처음으로 요청하게 되면, 이제 디테일 페이지 및 메인페이지에 뜰 수 있는 자격이 된다.
       // 처음에는 isRegistered가 false였기 때문에 등록이 다 된 상태가 아닌것이고,
       // 등록을 하게 되면 isRegistered가 true로 바뀌게 된다.
@@ -56,7 +55,7 @@ module.exports = createCoreController(
 
       return {
         ...deliveryInfo,
-        contractsOnProcessing,
+        contractsOnProcessing: contractsOnProcessing.count,
       };
     },
 

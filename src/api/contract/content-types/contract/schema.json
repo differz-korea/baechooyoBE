@@ -40,10 +40,12 @@
     "status": {
       "type": "enumeration",
       "enum": [
+        "wating",
         "approved",
         "rejected",
         "canceled"
-      ]
+      ],
+      "default": "wating"
     },
     "requesterCancel": {
       "type": "boolean"

@@ -74,14 +74,22 @@ module.exports = createCoreService(
 
     /** 배달대행 업체 정보를 추가한다. */
     async updateInfo({ deliveryAgencyInfo, user, files }) {
+      const exsist = await strapi.db
+        .query("api::delivery-agency.delivery-agency")
+        .findOne({
+          where: {
+            user: user.id,
+          },
+        });
       // 배달대행정보를 업데이트시킨다.
-      await strapi.db.query("api::delivery-agency.delivery-agency").update({
-        data: deliveryAgencyInfo,
-        files,
-        where: {
-          user: user.id,
-        },
-      });
+      await strapi.entityService.update(
+        "api::delivery-agency.delivery-agency",
+        exsist.id,
+        {
+          data: deliveryAgencyInfo,
+          files: files,
+        }
+      );
       return "업데이트 완료!";
     },
   })

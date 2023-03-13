@@ -107,9 +107,6 @@
       "target": "api::rate-plan.rate-plan",
       "inversedBy": "deliveryAgencies"
     },
-    "underContract": {
-      "type": "integer"
-    },
     "baechooyoCertified": {
       "type": "boolean",
       "default": false
@@ -133,7 +130,8 @@
       "multiple": true,
       "required": false,
       "allowedTypes": [
-        "images"
+        "images",
+        "files"
       ]
     },
     "isRegistered": {
@@ -142,6 +140,11 @@
     },
     "openingHours": {
       "type": "string"
+    },
+    "coupon": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::coupon.coupon"
     }
   }
 }

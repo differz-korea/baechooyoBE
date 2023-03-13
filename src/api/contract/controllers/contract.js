@@ -54,28 +54,33 @@ module.exports = createCoreController(
       await strapi
         .service("api::contract.contract")
         .canActivateContract(contractInfo, ctx.state.user);
+
       return contractInfo;
     },
     async getMyList(ctx) {
       const userId = ctx.state.user.id;
-      return await strapi.service("api::contract.contract").getContracts({
-        filter: {
-          $or: [
-            {
-              requester: userId,
-            },
-            {
-              responder: userId,
-            },
-          ],
-        },
-        populate: ["requester", "responder"],
-        orderBy: [
-          {
-            createdAt: "desc",
-          },
-        ],
-      });
+      const onProcessing = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "all", false);
+
+      // return await strapi.service("api::contract.contract").getContracts({
+      //   filter: {
+      //     $or: [
+      //       {
+      //         requester: userId,
+      //       },
+      //       {
+      //         responder: userId,
+      //       },
+      //     ],
+      //   },
+      //   populate: ["requester", "responder"],
+      //   orderBy: [
+      //     {
+      //       createdAt: "desc",
+      //     },
+      //   ],
+      // });
     },
     async response(ctx) {
       // 계약 승인 여부를 true 또는 false로 받는다
@@ -159,7 +164,7 @@ module.exports = createCoreController(
         .canActivateContract(contract, ctx.state.user);
 
       //can Edit?
-      if (contract.status !== null) {
+      if (contract.status !== "wating") {
         return ctx.badRequest(
           "이미 배달대행사업자로부터 응답된 계약입니다, 계약을 수정하고싶으시면 현재 계약을 취소하고 새로운 계약서를 만드세요"
         );
