@@ -23,7 +23,10 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
     return await strapi.entityService.create(
       "api::delivery-agency.delivery-agency",
       {
-        data,
+        data: {
+          ...data,
+          status: "wating",
+        },
       }
     );
   },
@@ -90,7 +93,9 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
       },
     });
     if (!isApprovedContract) {
-      throw new ApplicationError("이 업체에게 승인응답을 받은 계약이 없습니다");
+      throw new ApplicationError(
+        "이 업체에게 승인 응답을 받은 계약이 없습니다"
+      );
     }
     let comparedDate = new Date();
     comparedDate.setDate(comparedDate.getDate() + 7);
@@ -138,6 +143,7 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
         $gt: new Date().toISOString().slice(0, 10),
       };
     }
+
     const [data, count] = await contractRepository.findWithCount({
       where,
       orderBy: {

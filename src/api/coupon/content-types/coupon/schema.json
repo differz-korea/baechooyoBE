@@ -4,7 +4,8 @@
   "info": {
     "singularName": "coupon",
     "pluralName": "coupons",
-    "displayName": "Coupon"
+    "displayName": "Coupon",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -16,6 +17,17 @@
     },
     "Content": {
       "type": "text"
+    },
+    "deliveryAgency": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::delivery-agency.delivery-agency",
+      "inversedBy": "coupon"
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

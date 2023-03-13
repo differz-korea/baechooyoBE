@@ -29,8 +29,9 @@ module.exports = createCoreService(
             documentOfInsurance: {
               select: ["id", "url"],
             },
+            ratePlan: true,
+            coupon: true,
           },
-          ratePlan: true,
           where,
         });
       return deliveryAgency;
@@ -59,8 +60,8 @@ module.exports = createCoreService(
             documentOfInsurance: {
               select: ["id", "url"],
             },
+            ratePlan: true,
           },
-          ratePlan: true,
         });
     },
 
