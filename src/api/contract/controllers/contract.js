@@ -18,6 +18,7 @@ module.exports = createCoreController(
       // details, description, deliveryAgency(ID number), expirationDate
       const { details, description, deliveryAgency, expirationDate } =
         ctx.request.body;
+      console.log(details, description, deliveryAgency, expirationDate);
       const requester = ctx.state.user.id;
       // 사용자가 해당업체와 계약을 할 수 있는지 체크한다.
       await strapi

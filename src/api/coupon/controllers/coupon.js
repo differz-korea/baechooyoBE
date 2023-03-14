@@ -38,6 +38,7 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
       });
       return "쿠폰정보가 수정됨.";
     }
+
     const { title, content } = ctx.request.body;
     if (delivery.coupon) {
       return ctx.badRequest("이미 쿠폰이 등록됨");
@@ -54,13 +55,12 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
   /** 쿠폰 발급 API */
   async downloadCoupon(ctx) {
     /** id는 쿠폰 아이디 */
-    const { id } = ctx.params;
     //이미 사용되지 않은 해당 쿠폰이 이미 있지 않은지 확인,
     const downloadedCoupon = await strapi.db
       .query("api::coupon-box.coupon-box")
       .findOne({
         where: {
-          coupon: id,
+          coupon: ctx.params.id,
           user: ctx.state.user.id,
           isUsed: false,
         },
@@ -70,10 +70,10 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
         "이미 해당 쿠폰이 다운로드가 되어있으며, 사용되지도 않았습니다"
       );
     }
-    await strapi.entityService.create("api::coupon-box.coupon-box", {
+    await strapi.db.query("api::coupon-box.coupon-box").create({
       data: {
         user: ctx.state.user.id,
-        coupon: id,
+        coupon: ctx.params.id,
         isUsed: false,
       },
     });
@@ -84,26 +84,29 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
   async getCouponByDeliveryAgencyId(ctx) {
     /** id는 배달대행 업체 아이디 */
     const { id } = ctx.params;
-    console.log(id);
+
     const coupon = await strapi.db.query("api::coupon.coupon").findOne({
       where: {
         deliveryAgency: id,
       },
     });
-    console.log(coupon);
-    const 사용가능쿠폰 = await strapi.db
-      .query("api::coupon-box.coupon-box")
-      .findOne({
-        where: {
-          user: ctx.state.user.id,
-          coupon: id,
-          isUsed: false,
-        },
-      });
-    console.log(사용가능쿠폰);
+
+    let 사용가능쿠폰 = null;
+    if (ctx.state.user) {
+      사용가능쿠폰 = await strapi.db
+        .query("api::coupon-box.coupon-box")
+        .findOne({
+          where: {
+            user: ctx.state.user.id,
+            coupon: id,
+            isUsed: false,
+          },
+        });
+    }
+
     return {
       //쿠폰정보
-      coupon,
+      ...coupon,
       //발급 상태
       canDownload: 사용가능쿠폰 === null && coupon ? true : false,
     };

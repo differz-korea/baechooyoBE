@@ -32,7 +32,7 @@ module.exports = {
     },
     /** 쿠폰아이디로 쿠폰을 다운로드한다. */
     {
-      method: "POST",
+      method: "GET",
       path: "/coupons/downloadCoupon/:id",
       handler: "coupon.downloadCoupon",
       config: {
