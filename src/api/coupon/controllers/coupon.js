@@ -82,14 +82,15 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
   //
   /** deliveryAgency detail 페이지에서 쿠폰을 따로 불러올 때, */
   async getCouponByDeliveryAgencyId(ctx) {
-    /** deliveryAgencyId는 배달대행 업체 아이디 */
-    const { deliveryAgencyId } = ctx.params;
-
+    /** id는 배달대행 업체 아이디 */
+    const { id } = ctx.params;
+    console.log(id);
     const coupon = await strapi.db.query("api::coupon.coupon").findOne({
       where: {
-        deliveryAgency: deliveryAgencyId,
+        deliveryAgency: id,
       },
     });
+    console.log(coupon);
     const 사용가능쿠폰 = await strapi.db
       .query("api::coupon-box.coupon-box")
       .findOne({
@@ -99,11 +100,12 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
           isUsed: false,
         },
       });
+    console.log(사용가능쿠폰);
     return {
       //쿠폰정보
-      ...coupon,
+      coupon,
       //발급 상태
-      canDownload: 사용가능쿠폰 ? false : true,
+      canDownload: 사용가능쿠폰 === null && coupon ? true : false,
     };
   },
   //

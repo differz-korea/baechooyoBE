@@ -27,7 +27,7 @@ module.exports = {
     /** 배달대행아이디로 쿠폰정보를 불러온다. */
     {
       method: "GET",
-      path: "/coupons/deliveryAgency/:deliveryAgencyId",
+      path: "/coupons-delivery-agency/:id",
       handler: "coupon.getCouponByDeliveryAgencyId",
     },
     /** 쿠폰아이디로 쿠폰을 다운로드한다. */
@@ -44,10 +44,10 @@ module.exports = {
         ],
       },
     },
-    {
-      method: "POST",
-      path: "/coupons",
-      handler: "coupon.delete",
-    },
+    // {
+    //   method: "POST",
+    //   path: "/coupons",
+    //   handler: "coupon.delete",
+    // },
   ],
 };
