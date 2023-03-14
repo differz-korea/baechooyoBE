@@ -90,6 +90,12 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
         deliveryAgency: id,
       },
     });
+    if (!coupon) {
+      return {
+        coupon: null,
+        canDownload: false,
+      };
+    }
 
     let 사용가능쿠폰 = null;
     if (ctx.state.user) {
