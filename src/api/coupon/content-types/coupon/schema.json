@@ -15,7 +15,7 @@
     "title": {
       "type": "string"
     },
-    "Content": {
+    "content": {
       "type": "text"
     },
     "deliveryAgency": {

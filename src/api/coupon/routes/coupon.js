@@ -17,10 +17,29 @@ module.exports = {
       handler: "coupon.setCoupon",
       config: {
         policies: [
-          /** 계정이 배달업체로 등록된 사용자만 등록 할 수 있다 */
           {
             name: "global::business-type-check",
             config: BusinessType.DELIVERY,
+          },
+        ],
+      },
+    },
+    /** 배달대행아이디로 쿠폰정보를 불러온다. */
+    {
+      method: "GET",
+      path: "/coupons/deliveryAgency/:deliveryAgencyId",
+      handler: "coupon.getCouponByDeliveryAgencyId",
+    },
+    /** 쿠폰아이디로 쿠폰을 다운로드한다. */
+    {
+      method: "POST",
+      path: "/coupons/downloadCoupon/:id",
+      handler: "coupon.downloadCoupon",
+      config: {
+        policies: [
+          {
+            name: "global::business-type-check",
+            config: BusinessType.MERCHANT,
           },
         ],
       },
