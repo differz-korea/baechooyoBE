@@ -141,10 +141,10 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
       },
       populate: {
         requester: {
-          select: ["phoneNumber", "name", "businessId", "businessName"],
+          select: ["phoneNumber", "name", "businessName"],
         },
         responder: {
-          select: ["phoneNumber", "name", "businessId", "businessName"],
+          select: ["phoneNumber", "name", "businessName"],
         },
       },
     });

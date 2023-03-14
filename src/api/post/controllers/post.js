@@ -34,6 +34,7 @@ module.exports = createCoreController("api::post.post", ({ strapi }) => ({
       },
     });
   },
+
   async update(ctx) {
     delete ctx.request.body.writer;
     // 쓴 사용자 user 정보는 바꿀 수 없도록

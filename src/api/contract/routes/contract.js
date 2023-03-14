@@ -65,7 +65,7 @@ module.exports = {
       method: "PUT",
       /** 소상공인과 배달대행업체의 계약을 수정하는 라우트 */
       // 먼저 계약서의 requester가 현재 유저와 일치해야한다.
-      // 두번째로 계약서의 status가 null이여야한다.
+      // 두번째로 계약서의 status가 wating이여야한다.
       // 계약서를 수정한다.
       path: "/contract/:id",
       handler: "contract.edit",
