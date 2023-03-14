@@ -23,12 +23,6 @@
       "relation": "oneToOne",
       "target": "api::delivery-agency.delivery-agency",
       "mappedBy": "coupon"
-    },
-    "couponUsers": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::coupon-user.coupon-user",
-      "mappedBy": "coupon"
     }
   }
 }

@@ -26,24 +26,6 @@ module.exports = {
       },
     },
     {
-      method: "GET",
-      path: "/coupons/:id",
-      handler: "coupon.saveCoupon",
-      config: {
-        policies: [
-          {
-            name: "global::business-type-check",
-            config: BusinessType.MERCHANT,
-          },
-        ],
-      },
-    },
-    // {
-    //     method : "POST",
-    //     path : "/coupons/canUse/:id",
-    //     handler : "coupon.canUseddddddddd"  
-    // },
-    {
       method: "POST",
       path: "/coupons",
       handler: "coupon.delete",
