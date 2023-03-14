@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "description": {
-      "type": "string"
-    },
     "deliveryAgency": {
       "type": "relation",
       "relation": "oneToOne",
@@ -69,10 +66,16 @@
       "type": "boolean",
       "default": true
     },
-    "locations": {
+    "deliveryLocations": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::location.location"
+    },
+    "otherPolicies": {
+      "type": "text"
+    },
+    "CouponDetails": {
+      "type": "json"
     }
   }
 }

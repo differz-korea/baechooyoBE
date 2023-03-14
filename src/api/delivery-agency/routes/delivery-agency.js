@@ -29,6 +29,15 @@ module.exports = {
       /** 자신의 배달대행업체 정보를 불러오는 라우트 */
       path: "/delivery-agency",
       handler: "delivery-agency.getForRegisterPage",
+      config: {
+        policies: [
+          /** 계정이 배달업체로 등록된 사용자만 불러올 수 있다 */
+          {
+            name: "global::business-type-check",
+            config: BusinessType.DELIVERY,
+          },
+        ],
+      },
     },
     {
       method: "GET",

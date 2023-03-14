@@ -17,7 +17,7 @@ module.exports = createCoreService(
             deliveryBrand: true,
             user: {
               // 상호명, 개업일자
-              select: ["businessName", "startDate", "id"],
+              select: ["businessName", "startDate", "id", "businessId"],
               populate: ["businessLocation"],
             },
             deliveryLocations: {
@@ -48,7 +48,7 @@ module.exports = createCoreService(
             deliveryBrand: true,
             user: {
               // 상호명, 개업일자
-              select: ["businessName", "startDate", "id"],
+              select: ["businessName", "startDate", "id", "businessId"],
               populate: ["businessLocation"],
             },
             deliveryLocations: {
