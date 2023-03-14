@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coupons",
+  "info": {
+    "singularName": "coupon",
+    "pluralName": "coupons",
+    "displayName": "Coupon",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "text"
+    },
+    "deliveryAgency": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::delivery-agency.delivery-agency",
+      "mappedBy": "coupon"
+    }
+  }
+}

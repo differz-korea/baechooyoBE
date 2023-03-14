@@ -107,9 +107,6 @@
       "target": "api::rate-plan.rate-plan",
       "inversedBy": "deliveryAgencies"
     },
-    "underContract": {
-      "type": "integer"
-    },
     "baechooyoCertified": {
       "type": "boolean",
       "default": false
@@ -119,22 +116,36 @@
       "relation": "oneToMany",
       "target": "api::location.location"
     },
-    "images": {
+    "documentOfInsurance": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "deliveryAgencyImages": {
       "type": "media",
       "multiple": true,
       "required": false,
       "allowedTypes": [
-        "images"
+        "images",
+        "files"
       ]
     },
-    "name": {
+    "isRegistered": {
+      "type": "boolean",
+      "default": false
+    },
+    "openingHours": {
       "type": "string"
     },
-    "reviewCount": {
-      "type": "integer"
-    },
-    "reviewAverage": {
-      "type": "integer"
+    "coupon": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::coupon.coupon",
+      "inversedBy": "deliveryAgency"
     }
   }
 }

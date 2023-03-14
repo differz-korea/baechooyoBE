@@ -83,7 +83,10 @@
     },
     "businessType": {
       "type": "enumeration",
-      "enum": ["DELIVERY", "MERCHANT"],
+      "enum": [
+        "DELIVERY",
+        "MERCHANT"
+      ],
       "required": true
     },
     "reviews": {
@@ -108,10 +111,13 @@
       "type": "boolean"
     },
     "businessLocation": {
-      "required": true,
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::location.location"
+      "target": "api::location.location",
+      "required": true
+    },
+    "startDate": {
+      "type": "string"
     }
   }
 }

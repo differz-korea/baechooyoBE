@@ -23,7 +23,10 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
     return await strapi.entityService.create(
       "api::delivery-agency.delivery-agency",
       {
-        data,
+        data: {
+          ...data,
+          status: "wating",
+        },
       }
     );
   },
@@ -42,11 +45,11 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
           },
           {
             // 업체에게 응답 대기중인것
-            status: null,
+            status: "wating",
           },
         ],
       },
-      orderBy: [{ expirationDate: "desc" }],
+      orderBy: { expirationDate: "desc" },
     });
     if (!existContract) {
       return true;
@@ -59,7 +62,7 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
       }
       //계약이 만료되면 새 계약서 생성을 허용한다.
     }
-    if (existContract.status === null) {
+    if (existContract.status === "wating") {
       throw new ApplicationError(
         "이미 응답 대기중인 계약이 있습니다, 배달대행업체 응답전에는 계약서를 수정할 수 있습니다"
       );
@@ -68,8 +71,8 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
   },
   //해당 계약서에 응답할 수 있는 상태인지 체크한다.
   async canResponse(contractInfo) {
-    // 두 번째로 계약서의 status가 null이여야한다.
-    if (contractInfo.status !== null) {
+    // 두 번째로 계약서의 status가 "wating"이여야한다.
+    if (contractInfo.status !== "wating") {
       throw new ApplicationError("응답 대기중인 계약이 아닙니다.");
     }
     if (new Date(contractInfo.expirationDate) < new Date()) {
@@ -90,7 +93,9 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
       },
     });
     if (!isApprovedContract) {
-      throw new ApplicationError("이 업체에게 승인응답을 받은 계약이 없습니다");
+      throw new ApplicationError(
+        "이 업체에게 승인 응답을 받은 계약이 없습니다"
+      );
     }
     let comparedDate = new Date();
     comparedDate.setDate(comparedDate.getDate() + 7);
@@ -114,5 +119,97 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
       }
     }
     throw new PolicyError("고객님이 접근 할 수 없는 계약입니다!");
+  },
+
+  //한 배달대행 업체의 계약상태를 반환한다.
+  // 배달대행 업체 기준으로
+  // status에 null을 보내면, approved, rejected, canceled, waiting을 포함한 모든 계약을 반환 받을 수 있고
+  // status에 approved 또는 rejected 또는 canceled 또는 wating을 보내면 각각 해당하는 계약을 반환 받을 수 있고
+  // atExpired에 true를 보내면 보내진 status와 함께 만료된 계약들이 반환된다.
+  async contractsCondition(deliveryAgencyId, status, atExpired = false) {
+    const contractRepository = strapi.db.query("api::contract.contract");
+
+    const where = {
+      deliveryAgency: deliveryAgencyId,
+      status,
+    };
+
+    if (!status) {
+      delete where.status;
+    }
+
+    if (atExpired) {
+      where.expirationDate = {
+        $gt: new Date().toISOString().slice(0, 10),
+      };
+    }
+
+    const [data, count] = await contractRepository.findWithCount({
+      where,
+      orderBy: {
+        createdAt: "desc",
+      },
+      populate: {
+        requester: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+        responder: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+      },
+    });
+    return {
+      data,
+      count,
+    };
+  },
+
+  // 유저아이디를 기준으로
+  // status에 null을 보내면, approved, rejected, canceled, waiting을 포함한 모든 계약을 반환 받을 수 있고
+  // status에 approved 또는 rejected 또는 canceled 또는 wating을 보내면 각각 해당하는 계약을 반환 받을 수 있고
+  // atExpired에 true를 보내면 보내진 status와 함께 만료된 계약들이 반환된다.
+  async contractsConditionByUserId(userId, status, atExpired = false) {
+    const contractRepository = strapi.db.query("api::contract.contract");
+    const where = {
+      $or: [
+        {
+          requester: userId,
+        },
+        {
+          responder: userId,
+        },
+      ],
+      status,
+    };
+
+    if (!status) {
+      delete where.status;
+    }
+
+    if (atExpired) {
+      where.expirationDate = {
+        $lt: new Date().toISOString().slice(0, 10),
+      };
+    }
+    const [data, count] = await contractRepository.findWithCount({
+      where,
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
+      populate: {
+        requester: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+        responder: {
+          select: ["phoneNumber", "name", "businessId", "businessName"],
+        },
+      },
+    });
+    return {
+      data,
+      count,
+    };
   },
 }));

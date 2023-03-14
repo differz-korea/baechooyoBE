@@ -18,6 +18,7 @@ module.exports = createCoreController(
       // details, description, deliveryAgency(ID number), expirationDate
       const { details, description, deliveryAgency, expirationDate } =
         ctx.request.body;
+      console.log(details, description, deliveryAgency, expirationDate);
       const requester = ctx.state.user.id;
       // 사용자가 해당업체와 계약을 할 수 있는지 체크한다.
       await strapi
@@ -48,34 +49,48 @@ module.exports = createCoreController(
         "api::contract.contract",
         contractId,
         {
-          populate: ["requester", "responder", "deliveryAgency"],
+          populate: {
+            requester: {
+              select: ["phoneNumber", "name", "businessId", "businessName"],
+            },
+            responder: {
+              select: ["phoneNumber", "name", "businessId", "businessName"],
+            },
+          },
         }
       );
       await strapi
         .service("api::contract.contract")
         .canActivateContract(contractInfo, ctx.state.user);
+
       return contractInfo;
     },
+
     async getMyList(ctx) {
       const userId = ctx.state.user.id;
-      return await strapi.service("api::contract.contract").getContracts({
-        filter: {
-          $or: [
-            {
-              requester: userId,
-            },
-            {
-              responder: userId,
-            },
-          ],
-        },
-        populate: ["requester", "responder"],
-        orderBy: [
-          {
-            createdAt: "desc",
-          },
-        ],
-      });
+      const approved = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "approved", false);
+      const wating = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "wating", false);
+      const canceled = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "canceled", false);
+      const rejected = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, "rejected", false);
+      const expired = await strapi
+        .service("api::contract.contract")
+        .contractsConditionByUserId(userId, null, true);
+
+      return {
+        approved,
+        wating,
+        canceled,
+        rejected,
+        expired,
+      };
     },
     async response(ctx) {
       // 계약 승인 여부를 true 또는 false로 받는다
@@ -159,7 +174,7 @@ module.exports = createCoreController(
         .canActivateContract(contract, ctx.state.user);
 
       //can Edit?
-      if (contract.status !== null) {
+      if (contract.status !== "wating") {
         return ctx.badRequest(
           "이미 배달대행사업자로부터 응답된 계약입니다, 계약을 수정하고싶으시면 현재 계약을 취소하고 새로운 계약서를 만드세요"
         );

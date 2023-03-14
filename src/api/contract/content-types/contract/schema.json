@@ -12,13 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "details": {
-      "type": "json",
-      "required": true
-    },
-    "description": {
-      "type": "string"
-    },
     "deliveryAgency": {
       "type": "relation",
       "relation": "oneToOne",
@@ -40,10 +33,12 @@
     "status": {
       "type": "enumeration",
       "enum": [
+        "wating",
         "approved",
         "rejected",
         "canceled"
-      ]
+      ],
+      "default": "wating"
     },
     "requesterCancel": {
       "type": "boolean"
@@ -54,6 +49,33 @@
     "expirationDate": {
       "type": "date",
       "required": true
+    },
+    "basicFee": {
+      "type": "integer"
+    },
+    "basicMeterDistance": {
+      "type": "integer"
+    },
+    "surchargePer100M": {
+      "type": "integer"
+    },
+    "otherSurchangeDescription": {
+      "type": "text"
+    },
+    "issuanceTaxInvoice": {
+      "type": "boolean",
+      "default": true
+    },
+    "deliveryLocations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::location.location"
+    },
+    "otherPolicies": {
+      "type": "text"
+    },
+    "CouponDetails": {
+      "type": "json"
     }
   }
 }
