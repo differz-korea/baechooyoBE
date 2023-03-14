@@ -19,17 +19,7 @@ module.exports = createCoreService("api::contract.contract", ({ strapi }) => ({
     const contractRepository = strapi.db.query("api::contract.contract");
     return await contractRepository.findMany(condition);
   },
-  async createContract(data) {
-    return await strapi.entityService.create(
-      "api::delivery-agency.delivery-agency",
-      {
-        data: {
-          ...data,
-          status: "wating",
-        },
-      }
-    );
-  },
+
   // 업체와 계약을 할 수 있는 관계인지 체크한다.
   async canCreateContract(requesterId, deliveryAgencyId) {
     //1.  deliveryAgency 업체가 사용자와 계약중인 관계인지 확인한다.

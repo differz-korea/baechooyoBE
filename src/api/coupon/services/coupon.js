@@ -13,8 +13,8 @@ module.exports = createCoreService("api::coupon.coupon", ({ strapi }) => ({
         isUsed: true,
       },
       where: {
-        coupon: id,
-        user: ctx.state.user.id,
+        coupon: couponId,
+        user: userId,
         isUsed: false,
       },
     });

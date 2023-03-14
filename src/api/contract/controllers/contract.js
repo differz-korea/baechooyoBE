@@ -15,11 +15,8 @@ module.exports = createCoreController(
   ({ strapi }) => ({
     /** 계약서를 작성하는 핸들러 */
     async create(ctx) {
-      // details, description, deliveryAgency(ID number), expirationDate
-      const { details, description, deliveryAgency, expirationDate } =
-        ctx.request.body;
-      console.log(details, description, deliveryAgency, expirationDate);
       const requester = ctx.state.user.id;
+      const { deliveryAgency, couponId } = ctx.request.body;
       // 사용자가 해당업체와 계약을 할 수 있는지 체크한다.
       await strapi
         .service("api::contract.contract")
@@ -32,14 +29,20 @@ module.exports = createCoreController(
           populate: ["user"],
         }
       );
+      //쿠폰을 사용한다.
+      if (couponId != null) {
+        await strapi
+          .service("api::coupon.coupon")
+          .useCoupon(couponId, ctx.state.user.id);
+      }
+
       return await strapi.service("api::contract.contract").create({
         data: {
-          details,
-          description,
+          ...ctx.request.body,
           deliveryAgency,
+          status: "wating",
           requester,
           responder: deliveryAgencyInfo.user.id,
-          expirationDate,
         },
       });
     },
@@ -180,16 +183,8 @@ module.exports = createCoreController(
         );
       }
 
-      const { details, description, deliveryAgency, expirationDate } =
-        ctx.request.body;
-
       await strapi.entityService.update("api::contract.contract", contractId, {
-        data: {
-          details,
-          description,
-          deliveryAgency,
-          expirationDate,
-        },
+        data: ctx.request.body,
       });
       return {};
     },
