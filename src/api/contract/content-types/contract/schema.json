@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "details": {
-      "type": "json",
-      "required": true
-    },
     "description": {
       "type": "string"
     },
@@ -57,8 +53,26 @@
       "type": "date",
       "required": true
     },
-    "couponDetails": {
-      "type": "json"
+    "basicFee": {
+      "type": "integer"
+    },
+    "basicMeterDistance": {
+      "type": "integer"
+    },
+    "surchargePer100M": {
+      "type": "integer"
+    },
+    "otherSurchangeDescription": {
+      "type": "text"
+    },
+    "issuanceTaxInvoice": {
+      "type": "boolean",
+      "default": true
+    },
+    "locations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::location.location"
     }
   }
 }

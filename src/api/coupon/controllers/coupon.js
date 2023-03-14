@@ -98,17 +98,16 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
         .findOne({
           where: {
             user: ctx.state.user.id,
-            coupon: id,
+            coupon: coupon.id,
             isUsed: false,
           },
         });
     }
-
     return {
       //쿠폰정보
       ...coupon,
       //발급 상태
-      canDownload: 사용가능쿠폰 === null && coupon ? true : false,
+      canDownload: 사용가능쿠폰 === null ? true : false,
     };
   },
   //
