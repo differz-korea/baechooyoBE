@@ -29,20 +29,32 @@ module.exports = createCoreController(
           populate: ["user"],
         }
       );
+      let couponDetails = null;
+      const responder = deliveryAgencyInfo.user.id;
       //쿠폰을 사용한다.
       if (couponId != null) {
+        //쿠폰이 그 업체 소유인지 알아본다.
+        couponDetails = await strapi.db.query("api::coupon.coupon").findOne({
+          where: {
+            id: couponId,
+            deliveryAgency,
+          },
+        });
+        if (!couponDetails) {
+          return ctx.badRequest("사용하려는 쿠폰이 해당업체의 것이 아닙니다.");
+        }
         await strapi
           .service("api::coupon.coupon")
           .useCoupon(couponId, ctx.state.user.id);
       }
-
-      return await strapi.service("api::contract.contract").create({
+      return await strapi.entityService.create("api::contract.contract", {
         data: {
           ...ctx.request.body,
+          couponDetails,
           deliveryAgency,
           status: "wating",
           requester,
-          responder: deliveryAgencyInfo.user.id,
+          responder,
         },
       });
     },
@@ -54,10 +66,10 @@ module.exports = createCoreController(
         {
           populate: {
             requester: {
-              select: ["phoneNumber", "name", "businessId", "businessName"],
+              select: ["phoneNumber", "name", "businessName"],
             },
             responder: {
-              select: ["phoneNumber", "name", "businessId", "businessName"],
+              select: ["phoneNumber", "name", "businessName"],
             },
           },
         }
